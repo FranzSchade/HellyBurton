@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1x8db0sund0v"]
+
+[ext_resource type="Script" uid="uid://ujlbos14ktsx" path="res://scripts/dialog_player.gd" id="1_2v0se"]
+[ext_resource type="FontFile" uid="uid://drpxclfw0kcnk" path="res://misc/m5x7.ttf" id="2_d7hcu"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2v0se"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_712rx"]
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+
+[node name="DialogPlayer" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_2v0se")
+scene_text_file = null
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 380.0
+offset_bottom = 140.0
+texture = SubResource("CanvasTexture_2v0se")
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 0
+offset_right = 380.0
+offset_bottom = 140.0
+color = Color(0, 0, 0, 0.8156863)
+
+[node name="Panel" type="Panel" parent="Background"]
+layout_mode = 0
+offset_right = 380.0
+offset_bottom = 140.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_712rx")
+
+[node name="Label" type="Label" parent="."]
+z_index = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 370.0
+offset_bottom = 130.0
+theme_override_fonts/font = ExtResource("2_d7hcu")
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 330.0
+offset_top = 118.0
+offset_right = 389.0
+offset_bottom = 141.0
+theme_override_fonts/font = ExtResource("2_d7hcu")
+text = "Space >"
