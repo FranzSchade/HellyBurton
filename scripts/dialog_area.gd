@@ -24,7 +24,7 @@ func _on_body_entered(_body: Node) -> void:
 	area_active = true
 	if on_entered == true:
 		SignalBus.emit_signal("display_dialog", dialog_key)
-		triggered_once = true
+		
 
 
 func _on_body_exited(_body: Node) -> void:

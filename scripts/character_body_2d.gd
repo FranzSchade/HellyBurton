@@ -4,6 +4,9 @@ extends CharacterBody2D
 @export var sprint_speed := 125
 var anim: AnimatedSprite2D
 
+@onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
+@onready var camera_2d: Camera2D = $Camera2D
+
 func _ready():
 	anim = $AnimatedSprite2D
 
@@ -44,3 +47,20 @@ func _physics_process(_delta):
 		anim.flip_h = true
 	elif velocity.x > 0:
 		anim.flip_h = false
+
+
+func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		print("play vamp")
+		cutscene_player.play("vamp_cutscene_1")
+
+
+func _on_cutscene_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "vamp_cutscene_1":
+		print("finished")
+		# Wir tweenen den offset von -150 zurück auf 0 in 1 Sekunde
+		var tween := create_tween()
+		tween.tween_property(camera_2d, "offset:y", 0, 1.0) # 1 Sekunde
+		# Optional: easing anpassen
+		tween.set_trans(Tween.TRANS_SINE)
+		tween.set_ease(Tween.EASE_IN_OUT)

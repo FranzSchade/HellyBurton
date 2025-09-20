@@ -17,7 +17,6 @@ border_blend = true
 [node name="DialogPlayer" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_2v0se")
-scene_text_file = null
 
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 380.0

@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://scripts/signal_bus.gd"
 
+[global_group]
+
+Player=""
+
 [input]
 
 walk_left={

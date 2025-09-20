@@ -29,6 +29,7 @@ func _ready() -> void:
 	center_dialog()
 	print(SignalBus)
 	SignalBus.display_dialog.connect(on_display_dialog) # Godot 4 Signal-Verbindung
+	SignalBus.cutscene_dialog.connect(on_cutscene_dialog)
 	print("DialogPlayer connected to SignalBus")
 	
 	
@@ -71,4 +72,16 @@ func on_display_dialog(text_key):
 		in_progress = true
 		selected_text = scene_text[text_key].duplicate()
 		show_text()
+		
+func on_cutscene_dialog(text_key: String):
+	print("called with " + text_key)
+	get_tree().paused = true
+	background.visible = true
+	color_rect.visible = true
+	label_2.visible = true
+	in_progress = true
+	selected_text = scene_text[text_key].duplicate()
+	while in_progress:
+		next_line()
+		await get_tree().create_timer(1).timeout
 		
