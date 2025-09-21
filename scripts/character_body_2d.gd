@@ -2,14 +2,19 @@ extends CharacterBody2D
 
 @export var speed := 75
 @export var sprint_speed := 125
+@export var max_health := 100
+var health = max_health
 var anim: AnimatedSprite2D
-
 @onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var health_bar: TextureProgressBar = $"../PlayerHUD/HealthBar"
 
 func _ready():
 	anim = $AnimatedSprite2D
-
+	health_bar.max_value = max_health
+	health_bar.value = health
+	Inventory.set_player(self)
+	
 func _physics_process(_delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("walk_right") - Input.get_action_strength("walk_left")
@@ -29,6 +34,7 @@ func _physics_process(_delta):
 	elif velocity.x != 0:
 		if Input.is_action_pressed("sprint"):
 			anim.play("run_base_side")
+			damage(10)
 		else:
 			anim.play("walk_base_side")
 	elif velocity.y < 0:
@@ -54,12 +60,9 @@ func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
 		print("play vamp")
 		cutscene_player.play("vamp_cutscene_1")
 		print(cutscene_player.current_animation_length)
-
-
-func _on_cutscene_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "vamp_cutscene_1":
-		print("finished")
-		var tween := create_tween()
-		tween.tween_property(camera_2d, "offset:y", 0, 1.0) # 1 Sekunde
-		tween.set_trans(Tween.TRANS_SINE)
-		tween.set_ease(Tween.EASE_IN_OUT)
+		
+func damage(amount: int) -> void:
+	health = clamp(health - amount, 0, max_health)
+	health_bar.value = health
+	if health <= 0:
+		pass

@@ -83,5 +83,5 @@ func on_cutscene_dialog(text_key: String):
 	selected_text = scene_text[text_key].duplicate()
 	while in_progress:
 		next_line()
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(2).timeout
 		

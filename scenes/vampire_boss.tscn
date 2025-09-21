@@ -1,5 +1,6 @@
-[gd_scene load_steps=78 format=3 uid="uid://ch6t2g1agi7rv"]
+[gd_scene load_steps=79 format=3 uid="uid://ch6t2g1agi7rv"]
 
+[ext_resource type="Script" uid="uid://bv77gi2sw013c" path="res://npc_movement.gd" id="1_d7rco"]
 [ext_resource type="Texture2D" uid="uid://c8qh84vgj4kvh" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Attack_with_shadow.png" id="1_rv78h"]
 [ext_resource type="Texture2D" uid="uid://bp71s4cemh2so" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Run_with_shadow.png" id="2_7n8xq"]
 [ext_resource type="Texture2D" uid="uid://vcwb056e325x" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Idle_with_shadow.png" id="3_4wlns"]
@@ -331,9 +332,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pvipr")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_back",
-"speed": 5.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -372,9 +373,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bll4x")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_front",
-"speed": 5.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -413,9 +414,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pea3f")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack_side",
-"speed": 5.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -560,10 +561,12 @@ animations = [{
 size = Vector2(31, 31)
 
 [node name="vampire_boss" type="CharacterBody2D"]
+texture_filter = 1
+script = ExtResource("1_d7rco")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tcuxl")
-animation = &"idle_front"
+animation = &"attack_back"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -1.5)
