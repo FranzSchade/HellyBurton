@@ -30,5 +30,5 @@ func _on_body_entered(_body: Node) -> void:
 func _on_body_exited(_body: Node) -> void:
 	print("exited")
 	if one_time:
-		collision_shape_2d.disabled = true
+		collision_shape_2d.set_deferred("disabled", true)
 	area_active = false

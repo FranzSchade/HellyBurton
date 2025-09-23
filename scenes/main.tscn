@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=34 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
+[ext_resource type="PackedScene" uid="uid://bi7fasb4h65br" path="res://scenes/inventory.tscn" id="2_jkv2x"]
 [ext_resource type="TileSet" uid="uid://uhorp36vddxd" path="res://tile_sets/border_walls_set.tres" id="3_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://b8wgma2x8rok1" path="res://scenes/character_body_2d.tscn" id="6_ya4ey"]
 [ext_resource type="Script" uid="uid://bv1m61isf0nlg" path="res://scripts/camera_2d_2.gd" id="7_o6xl0"]
@@ -14,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://5b3axso2q6xc" path="res://scenes/vampire_spawn.tscn" id="13_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://kdky6rsx0hu" path="res://assets/Pixel Crawler - Free Pack/Environment/Structures/Buildings/Props.png" id="13_muem4"]
 [ext_resource type="Texture2D" uid="uid://c31ey6sa05a6o" path="res://assets/Pixel Crawler - Free Pack/Environment/Structures/Buildings/Roofs.png" id="14_dp3eg"]
+[ext_resource type="PackedScene" uid="uid://b8vkxp76qk3t2" path="res://scenes/inventory_item.tscn" id="16_muem4"]
+[ext_resource type="Texture2D" uid="uid://cgoi4vwpietsh" path="res://assets/Pixel Crawler - Free Pack/Weapons/Wood/Wood.png" id="17_muem4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trceg"]
 bg_color = Color(0.5137255, 0, 0, 1)
@@ -1343,6 +1346,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterBody2D:process_mode")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
 
 [sub_resource type="Animation" id="Animation_ya4ey"]
 resource_name = "vamp_cutscene_1"
@@ -1428,6 +1443,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(810, -600), Vector2(810, -420)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CharacterBody2D:process_mode")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 3]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trceg"]
 _data = {
@@ -1442,6 +1469,17 @@ size = Vector2(55, 31)
 vertices = PackedVector2Array(1404.2188, -93.28125, 1510.9688, 629, 377.03906, 629.9922, 380.96094, -341, 775.3281, -311, 1352.7891, -534, 1511, -534, 1511, -332, 1398.7734, -332, 1348.7891, -342.97656, 1509.0234, -90.27344, 774.3281, -341, 855.40625, -311, 857.39844, -343.97656)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8, 9), PackedInt32Array(0, 10, 1), PackedInt32Array(3, 11, 4), PackedInt32Array(0, 4, 12), PackedInt32Array(9, 8, 0, 12, 13)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(371, -351, 784, -351, 785, -321, 846, -321, 848, -354, 1339, -353, 1343, -544, 1521, -544, 1521, -322, 1409, -322, 1414, -103, 1519, -100, 1521, 639, 367, 640)])
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muem4"]
+atlas = ExtResource("17_muem4")
+region = Rect2(64, 0, 16, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_muem4"]
+load_path = "res://.godot/imported/Wood.png-d4d91d6eeb837ab433b199aa77b0d670.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dp3eg"]
+atlas = SubResource("CompressedTexture2D_muem4")
+region = Rect2(0, 0, 16, 48)
 
 [node name="Main" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [64.0]
@@ -1470,6 +1508,13 @@ offset_bottom = 48.0
 texture_progress = ExtResource("1_a8y0u")
 
 [node name="InventoryUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Inventory" parent="InventoryUI" instance=ExtResource("2_jkv2x")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2
 
 [node name="DialogPlayer" parent="." instance=ExtResource("8_85g3d")]
 offset = Vector2(0, 50)
@@ -1487,6 +1532,7 @@ tile_map_data = PackedByteArray("AABPACcAAQAAAAAAAABOACcAAQAAAAAAAABNACcAAQAAAAA
 tile_set = ExtResource("3_ya4ey")
 
 [node name="CharacterBody2D" parent="." groups=["Player"] instance=ExtResource("6_ya4ey")]
+process_mode = 3
 position = Vector2(824, 127)
 collision_layer = 3
 speed = 50
@@ -1559,6 +1605,22 @@ disabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_trceg")
+
+[node name="InventoryItem2" parent="." instance=ExtResource("16_muem4")]
+process_mode = 3
+position = Vector2(800, 0)
+item_type = "weapon"
+item_name = "wooden_spear "
+item_texture = SubResource("AtlasTexture_muem4")
+item_effect = "pointy hurt"
+
+[node name="InventoryItem" parent="." instance=ExtResource("16_muem4")]
+process_mode = 3
+position = Vector2(908, 151)
+item_type = "weapon"
+item_name = "wooden_sword"
+item_texture = SubResource("AtlasTexture_dp3eg")
+item_effect = "hurt"
 
 [connection signal="body_entered" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_entered"]
 [connection signal="body_exited" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_exited"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://b8wgma2x8rok1"]
+[gd_scene load_steps=62 format=3 uid="uid://b8wgma2x8rok1"]
 
 [ext_resource type="Script" uid="uid://bwi1g2h87ylye" path="res://scripts/character_body_2d.gd" id="1_t53lx"]
 [ext_resource type="Texture2D" uid="uid://cgf4awex3hjlp" path="res://assets/Pixel Crawler - Free Pack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Down-Sheet.png" id="2_yi2kj"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://clfdco06hdeqp" path="res://assets/Pixel Crawler - Free Pack/Entities/Characters/Body_A/Animations/Run_Base/Run_Side-Sheet.png" id="6_8nwgm"]
 [ext_resource type="Texture2D" uid="uid://bh4xa35s0pyyx" path="res://assets/Pixel Crawler - Free Pack/Entities/Characters/Body_A/Animations/Run_Base/Run_Up-Sheet.png" id="7_7pl6r"]
 [ext_resource type="Texture2D" uid="uid://dtm3fxcrhmvyb" path="res://assets/Pixel Crawler - Free Pack/Entities/Characters/Body_A/Animations/Walk_Base/Walk_Up-Sheet.png" id="7_x5gf8"]
+[ext_resource type="FontFile" uid="uid://drpxclfw0kcnk" path="res://misc/m5x7.ttf" id="11_8nwgm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_42hdn"]
 atlas = ExtResource("2_yi2kj")
@@ -410,3 +411,30 @@ animation = &"run_base_down"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_ri7g2")
+
+[node name="PickUpCanvas" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="PickUpCanvas"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -41.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="Label" type="Label" parent="PickUpCanvas/ColorRect"]
+layout_mode = 0
+offset_right = 81.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("11_8nwgm")
+theme_override_font_sizes/font_size = 25
+text = "Pick up"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -21,19 +21,24 @@ border_blend = true
 [node name="Inventory" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 script = ExtResource("1_qw0r6")
 
 [node name="TextureRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 420.0
-offset_bottom = 230.0
+offset_right = 415.0
+offset_bottom = 211.0
+mouse_filter = 2
 color = Color(0, 0, 0, 0.78431374)
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
 offset_right = 420.0
-offset_bottom = 230.0
-columns = 9
+offset_bottom = 216.0
+mouse_filter = 2
+columns = 6
 
 [node name="Slot1" type="Panel" parent="GridContainer"]
 layout_mode = 2
@@ -41,6 +46,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_gg8by")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 420.0
-offset_bottom = 230.0
+offset_right = 415.0
+offset_bottom = 211.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qw0r6")

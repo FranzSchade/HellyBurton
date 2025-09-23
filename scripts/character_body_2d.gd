@@ -8,6 +8,8 @@ var anim: AnimatedSprite2D
 @onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var health_bar: TextureProgressBar = $"../PlayerHUD/HealthBar"
+@onready var inventory_canvas: CanvasLayer = $"../InventoryUI"
+@onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 
 func _ready():
 	anim = $AnimatedSprite2D
@@ -66,3 +68,20 @@ func damage(amount: int) -> void:
 	health_bar.value = health
 	if health <= 0:
 		pass
+		
+func heal(amount: int) -> void:
+	health = clamp(health + amount, 0, max_health)
+	health_bar.value = health
+	
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_inventory"):
+		inventory_canvas.visible = not inventory_canvas.visible
+		
+		
+func apply_item_effect(item):
+	match item["effect"]:
+		"Stamina":
+			speed += 50
+		"Health":
+			heal(item["amount"])
