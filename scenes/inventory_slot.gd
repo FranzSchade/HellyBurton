@@ -27,7 +27,7 @@ func _on_item_button_mouse_entered() -> void:
 func _on_item_button_mouse_exited() -> void:
 	if item != null:
 		details.visible = false
-		usage.visible = false
+		
 		
 func set_empty():
 	item_icon.texture = null
@@ -42,3 +42,13 @@ func set_item(new_item):
 	if new_item["stackable"]:
 		item_quantity.text = new_item["quantity"]
 	
+
+
+func _on_drop_button_pressed() -> void:
+	if item != null:
+		var drop_position = Inventory.player_node.global_position
+		var drop_offset = Vector2(0,50)
+		drop_offset = drop_offset.rotated(Inventory.player_node.rotation)
+		Inventory.drop_item(item, drop_position + drop_offset)
+		Inventory.remove_item(item)
+		

@@ -1,9 +1,10 @@
-[gd_scene load_steps=34 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=35 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://bi7fasb4h65br" path="res://scenes/inventory.tscn" id="2_jkv2x"]
 [ext_resource type="TileSet" uid="uid://uhorp36vddxd" path="res://tile_sets/border_walls_set.tres" id="3_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://dflso4ougfy4q" path="res://scenes/inventory_hotbar.tscn" id="4_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://b8wgma2x8rok1" path="res://scenes/character_body_2d.tscn" id="6_ya4ey"]
 [ext_resource type="Script" uid="uid://bv1m61isf0nlg" path="res://scripts/camera_2d_2.gd" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://c1x8db0sund0v" path="res://scenes/dialog_player.tscn" id="8_85g3d"]
@@ -1520,6 +1521,11 @@ grow_vertical = 2
 offset = Vector2(0, 50)
 transform = Transform2D(1, 0, 0, 1, 0, 50)
 scene_text_file = "res://misc/world_dialog.json"
+
+[node name="InventoryHotbar" type="CanvasLayer" parent="."]
+
+[node name="InventoryHotbar" parent="InventoryHotbar" instance=ExtResource("4_dp3eg")]
+metadata/_edit_use_anchors_ = true
 
 [node name="Ground" type="TileMapLayer" parent="."]
 texture_filter = 1
