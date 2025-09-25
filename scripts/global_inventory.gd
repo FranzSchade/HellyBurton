@@ -66,11 +66,30 @@ func add_hotbar_item(item):
 	for i in range(hotbar_inventory.size()):
 		if hotbar_inventory[i]==null:
 			hotbar_inventory[i] = item
+			item.in_hotbar = true
 			return true
 	return false
 	
 func remove_hotbar_item(item):
-	pass
+	for i in range(hotbar_inventory.size()):
+		if hotbar_inventory[i] != null and hotbar_inventory[i]["item_name"] == item["item_name"]:
+			if hotbar_inventory[i]["quantity"] == 1:
+				hotbar_inventory[i] = null
+				item.in_hotbar = false
+			else:
+				hotbar_inventory[i]["quantity"] -= 1
+			inventory_updated.emit()
+			return true
+	return false
+	
+func unassign_hotbar_item(item):
+	for i in range(hotbar_inventory.size()):
+		if hotbar_inventory[i] != null and hotbar_inventory[i]["item_name"] == item["item_name"]:
+			hotbar_inventory[i] = null
+			item.in_hotbar = false
+			inventory_updated.emit()
+			return true
+	return false
 
 func increase_inventory_size():
 	inventory_updated.emit()

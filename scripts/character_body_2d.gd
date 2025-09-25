@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-@export var speed := 75
-@export var sprint_speed := 125
+@export var speed := 125
 @export var max_health := 100
 var health = max_health
+
 var anim: AnimatedSprite2D
 @onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
 @onready var camera_2d: Camera2D = $Camera2D
@@ -12,6 +12,12 @@ var anim: AnimatedSprite2D
 @onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
 
+# --- Schlag-Variablen ---
+var is_attacking: bool = false
+var attack_cooldown: bool = false
+var last_attack_index := {"up": 1, "down": 1, "side": 1} # Merkt sich letzte Attacke
+var last_direction = "down"
+
 func _ready():
 	anim = $AnimatedSprite2D
 	health_bar.max_value = max_health
@@ -19,43 +25,92 @@ func _ready():
 	Inventory.set_player(self)
 	
 func _physics_process(_delta):
+	# Bewegung blockieren bei Attacke oder Cooldown
+	if is_attacking or attack_cooldown:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("walk_right") - Input.get_action_strength("walk_left")
 	input_vector.y = Input.get_action_strength("walk_down") - Input.get_action_strength("walk_up")
 	
-	input_vector = input_vector.normalized()
+	# Normalisieren → diagonale Bewegungen nicht schneller
+	if input_vector != Vector2.ZERO:
+		input_vector = input_vector.normalized()
 
-	if Input.is_action_pressed("sprint"):
-		velocity = input_vector * sprint_speed
-	else:
-		velocity = input_vector * speed
+	velocity = input_vector * speed
 	move_and_slide()
 
-	# Animation wechseln
+	# Animation wechseln (nur wenn nicht im Angriff)
 	if velocity.length() == 0:
-		anim.play("idle_base_down")
+		match last_direction:
+			"left":
+				anim.play("idle_side")
+				anim.flip_h = true
+			"right":
+				anim.play("idle_side")
+			"up":
+				anim.play("idle_up")
+			"down":
+				anim.play("idle_down")
+			
 	elif velocity.x != 0:
-		if Input.is_action_pressed("sprint"):
-			anim.play("run_base_side")
-			damage(10)
-		else:
-			anim.play("walk_base_side")
+		anim.play("walk_side")
 	elif velocity.y < 0:
-		if Input.is_action_pressed("sprint"):
-			anim.play("run_base_up")
-		else:
-			anim.play("walk_base_up")
+		anim.play("walk_up")
+		last_direction = "up"
 	else:
-		if Input.is_action_pressed("sprint"):
-			anim.play("run_base_down")
-		else:
-			anim.play("walk_base_down")
+		anim.play("walk_down")
+		last_direction = "down"
 
-	# Flip, wenn nötig (links/rechts)
+	# Flip für Seitenbewegung
 	if velocity.x < 0:
 		anim.flip_h = true
+		last_direction = "left"
 	elif velocity.x > 0:
 		anim.flip_h = false
+		last_direction = "right"
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_inventory"):
+		inventory_canvas.visible = not inventory_canvas.visible
+		
+	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown:
+		attack()
+
+
+func attack() -> void:
+	is_attacking = true
+
+	var attack_dir := "down"
+
+	# Richtung bestimmen (basierend auf letzter Bewegung)
+	if abs(velocity.x) > abs(velocity.y):
+		attack_dir = "side"
+	elif velocity.y < 0:
+		attack_dir = "up"
+	elif velocity.y > 0:
+		attack_dir = "down"
+	
+	# Abwechseln zwischen 1 und 2
+	var index = last_attack_index[attack_dir]
+	var next_index = (index % 2) + 1
+	last_attack_index[attack_dir] = next_index
+	
+	# Animation spielen
+	var anim_name = "hit_%s_%d" % [attack_dir, next_index]
+	anim.play(anim_name)
+	
+	# Warten bis Animation vorbei ist
+	await anim.animation_finished
+	is_attacking = false
+
+	# Kurze Cooldown-Pause nach der Attacke
+	attack_cooldown = true
+	await get_tree().create_timer(0.2).timeout
+	attack_cooldown = false
 
 
 func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
@@ -75,12 +130,6 @@ func heal(amount: int) -> void:
 	health_bar.value = health
 	
 	
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("open_inventory"):
-		inventory_canvas.visible = not inventory_canvas.visible
-		
-		
-		
 func apply_item_effect(item):
 	match item["effect"]:
 		"Stamina":

@@ -8,6 +8,7 @@ extends Node2D
 @export var stackable: bool
 var scene_path = preload("uid://b8vkxp76qk3t2")
 var player_in_range = false
+var in_hotbar = false
 
 @onready var icon: Sprite2D = $Sprite2D
 
@@ -29,7 +30,9 @@ func pickup_item():
 		"item_texture"= item_texture,
 		"item_effect" = item_effect,
 		"scene_path" = scene_path,
-		"stackable" = stackable
+		"stackable" = stackable,
+		"in_hotbar" = in_hotbar
+		
 	}
 	if Inventory.player_node:
 		Inventory.add_item(item, false)
@@ -54,3 +57,4 @@ func set_item_data(data):
 	item_effect = data["item_effect"]
 	scene_path = data["scene_path"]
 	stackable = data["stackable"]
+	in_hotbar = data["in_hotbar"]

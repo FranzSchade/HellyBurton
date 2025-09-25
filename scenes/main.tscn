@@ -1541,8 +1541,6 @@ tile_set = ExtResource("3_ya4ey")
 process_mode = 3
 position = Vector2(824, 127)
 collision_layer = 3
-speed = 50
-sprint_speed = 120
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 process_mode = 3

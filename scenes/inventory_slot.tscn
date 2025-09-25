@@ -67,7 +67,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_bxqf6")
 [node name="Details" type="ColorRect" parent="."]
 visible = false
 layout_mode = 0
-offset_top = -80.0
+offset_top = -90.0
 offset_right = 150.0
 color = Color(0, 0, 0, 0.7058824)
 
@@ -107,29 +107,42 @@ text = "Effect"
 [node name="Usage" type="ColorRect" parent="."]
 visible = false
 layout_mode = 0
-offset_top = -80.0
+offset_top = -90.0
 offset_right = 150.0
 color = Color(0, 0, 0, 0.7058824)
 
 [node name="UseButton" type="Button" parent="Usage"]
 layout_mode = 1
 offset_right = 150.0
-offset_bottom = 40.0
+offset_bottom = 30.0
 theme_override_fonts/font = ExtResource("1_dxvxp")
 text = "Use"
 
 [node name="DropButton" type="Button" parent="Usage"]
 layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -15.0
+offset_right = 150.0
+offset_bottom = 15.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_dxvxp")
+text = "Drop"
+
+[node name="AssignButton" type="Button" parent="Usage"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
+offset_top = -30.0
 offset_right = 150.0
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_dxvxp")
-text = "Drop"
+text = "Assign"
 
 [connection signal="mouse_entered" from="ItemButton" to="." method="_on_item_button_mouse_entered"]
 [connection signal="mouse_exited" from="ItemButton" to="." method="_on_item_button_mouse_exited"]
 [connection signal="pressed" from="ItemButton" to="." method="_on_item_button_pressed"]
 [connection signal="pressed" from="Usage/DropButton" to="." method="_on_drop_button_pressed"]
+[connection signal="pressed" from="Usage/AssignButton" to="." method="_on_assign_button_pressed"]
