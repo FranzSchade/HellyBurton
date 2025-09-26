@@ -560,7 +560,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tcuxl"]
 size = Vector2(31, 31)
 
-[node name="vampire_boss" type="CharacterBody2D"]
+[node name="vampire_boss" type="CharacterBody2D" groups=["Enemy"]]
 texture_filter = 1
 script = ExtResource("1_d7rco")
 

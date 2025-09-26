@@ -1604,9 +1604,6 @@ shape = SubResource("RectangleShape2D_trceg")
 [node name="VampireSpawnTest" parent="." instance=ExtResource("13_a8y0u")]
 position = Vector2(1212, 33)
 
-[node name="DetectionZone" parent="VampireSpawnTest/DetectionArea" index="0"]
-disabled = true
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_trceg")
 
@@ -1633,4 +1630,3 @@ item_effect = "hurt"
 [editable path="DialogAreaInit"]
 [editable path="VampireBoss"]
 [editable path="VampireSpawn"]
-[editable path="VampireSpawnTest"]

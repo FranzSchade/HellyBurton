@@ -1,10 +1,11 @@
-[gd_scene load_steps=92 format=3 uid="uid://5b3axso2q6xc"]
+[gd_scene load_steps=97 format=3 uid="uid://5b3axso2q6xc"]
 
 [ext_resource type="Script" uid="uid://bv77gi2sw013c" path="res://npc_movement.gd" id="1_0dw2d"]
 [ext_resource type="Texture2D" uid="uid://otxon6fk7qn8" path="res://assets/vampires/PNG/Vampires1/With_shadow/Vampires1_Death_with_shadow.png" id="1_p5072"]
 [ext_resource type="Texture2D" uid="uid://bp5q3ewnpihe2" path="res://assets/vampires/PNG/Vampires1/With_shadow/Vampires1_Attack_with_shadow.png" id="2_lvqmy"]
 [ext_resource type="Texture2D" uid="uid://ch3d4qpf25m74" path="res://assets/vampires/PNG/Vampires1/With_shadow/Vampires1_Idle_with_shadow.png" id="2_wrml7"]
 [ext_resource type="Texture2D" uid="uid://busa3td3cle0h" path="res://assets/vampires/PNG/Vampires1/With_shadow/Vampires1_Run_with_shadow.png" id="3_c6ocs"]
+[ext_resource type="Texture2D" uid="uid://benw2i8ad334c" path="res://assets/vampires/PNG/Vampires1/With_shadow/Vampires1_Hurt_with_shadow.png" id="5_xpjvf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4eewx"]
 atlas = ExtResource("2_lvqmy")
@@ -290,6 +291,22 @@ region = Rect2(384, 192, 64, 64)
 atlas = ExtResource("3_c6ocs")
 region = Rect2(448, 192, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0ujv"]
+atlas = ExtResource("5_xpjvf")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxb1s"]
+atlas = ExtResource("5_xpjvf")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usppn"]
+atlas = ExtResource("5_xpjvf")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlprp"]
+atlas = ExtResource("5_xpjvf")
+region = Rect2(192, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_v47dk"]
 atlas = ExtResource("2_wrml7")
 region = Rect2(0, 64, 64, 64)
@@ -419,7 +436,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_yk84v")
 }],
 "loop": false,
-"name": &"attack_front",
+"name": &"attack_down",
 "speed": 11.0
 }, {
 "frames": [{
@@ -499,7 +516,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death_side",
-"speed": 10.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -556,7 +573,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_u7w0n")
 }],
 "loop": true,
-"name": &"flight_front",
+"name": &"flight_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -590,6 +607,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_l0ujv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxb1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usppn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlprp")
+}],
+"loop": false,
+"name": &"hurt_down",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_v47dk")
 }, {
 "duration": 1.0,
@@ -619,7 +653,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ypuml")
 }],
 "loop": true,
-"name": &"idle_front",
+"name": &"idle_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -645,7 +679,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_c6ocs"]
 radius = 256.0078
 
-[node name="vampire_spawn" type="CharacterBody2D"]
+[node name="vampire_spawn" type="CharacterBody2D" groups=["Enemy"]]
 texture_filter = 1
 collision_layer = 3
 collision_mask = 3
@@ -655,7 +689,7 @@ script = ExtResource("1_0dw2d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ntcjy")
-animation = &"attack_side"
+animation = &"hurt_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_gxc8i")
@@ -666,8 +700,8 @@ shape = SubResource("RectangleShape2D_gxc8i")
 shape = SubResource("CircleShape2D_c6ocs")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 4.0
-target_desired_distance = 8.0
+path_desired_distance = 80.0
+target_desired_distance = 200.0
 navigation_layers = 3
 
 [node name="Timer" type="Timer" parent="."]

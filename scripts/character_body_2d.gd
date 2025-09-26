@@ -11,11 +11,15 @@ var anim: AnimatedSprite2D
 @onready var inventory_canvas: CanvasLayer = $"../InventoryUI"
 @onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
+@onready var hitbox_up: CollisionShape2D = $AreaUp/HitboxUp
+@onready var hitbox_right: CollisionShape2D = $AreaRight/HitboxRight
+@onready var hitbox_left: CollisionShape2D = $AreaLeft/HitboxLeft
+@onready var hitbox_down: CollisionShape2D = $AreaDown/HitboxDown
 
 # --- Schlag-Variablen ---
 var is_attacking: bool = false
 var attack_cooldown: bool = false
-var last_attack_index := {"up": 1, "down": 1, "side": 1} # Merkt sich letzte Attacke
+var last_attack_index := {"up": 1, "down": 1, "left": 1, "right": 1} # Merkt sich letzte Attacke
 var last_direction = "down"
 
 func _ready():
@@ -84,33 +88,71 @@ func _input(event: InputEvent) -> void:
 func attack() -> void:
 	is_attacking = true
 
-	var attack_dir := "down"
+	# Richtung zur Maus berechnen
+	var mouse_pos = get_global_mouse_position()
+	var dir = (mouse_pos - global_position).normalized()
 
-	# Richtung bestimmen (basierend auf letzter Bewegung)
-	if abs(velocity.x) > abs(velocity.y):
-		attack_dir = "side"
-	elif velocity.y < 0:
+	var attack_dir := "down"
+	if abs(dir.x) > abs(dir.y):
+		attack_dir = "right" if dir.x > 0 else "left"
+	elif dir.y < 0:
 		attack_dir = "up"
-	elif velocity.y > 0:
+	else:
 		attack_dir = "down"
-	
+
 	# Abwechseln zwischen 1 und 2
 	var index = last_attack_index[attack_dir]
 	var next_index = (index % 2) + 1
 	last_attack_index[attack_dir] = next_index
-	
-	# Animation spielen
+
+	# Animationsname bauen
 	var anim_name = "hit_%s_%d" % [attack_dir, next_index]
-	anim.play(anim_name)
-	
-	# Warten bis Animation vorbei ist
+
+	# Seiten-Animation + Flip
+	if attack_dir == "left":
+		anim.play("hit_side_%d" % [next_index])
+		anim.flip_h = true
+	elif attack_dir == "right":
+		anim.play("hit_side_%d" % [next_index])
+		anim.flip_h = false
+	else:
+		anim.play(anim_name)
+
+	# Hitbox aktivieren
+	_enable_hitbox(attack_dir)
+
+	# Hitbox nach kurzer Zeit deaktivieren
+	await get_tree().create_timer(0.15).timeout
+	_disable_all_hitboxes()
+
+	# Warten bis Animation fertig
 	await anim.animation_finished
 	is_attacking = false
 
-	# Kurze Cooldown-Pause nach der Attacke
+	# Kurzer Cooldown
 	attack_cooldown = true
 	await get_tree().create_timer(0.2).timeout
 	attack_cooldown = false
+
+
+func _enable_hitbox(dir: String) -> void:
+	_disable_all_hitboxes()
+	match dir:
+		"up":
+			hitbox_up.disabled = false
+		"down":
+			hitbox_down.disabled = false
+		"left":
+			hitbox_left.disabled = false
+		"right":
+			hitbox_right.disabled = false
+
+
+func _disable_all_hitboxes() -> void:
+	hitbox_up.disabled = true
+	hitbox_down.disabled = true
+	hitbox_left.disabled = true
+	hitbox_right.disabled = true
 
 
 func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
@@ -136,3 +178,8 @@ func apply_item_effect(item):
 			speed += 50
 		"Health":
 			heal(item["amount"])
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Enemy"):
+		body.damage(10)

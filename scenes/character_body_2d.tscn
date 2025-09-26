@@ -772,7 +772,8 @@ script = ExtResource("1_t53lx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_35mu4")
-animation = &"hit_down_2"
+animation = &"hit_down_1"
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 1)
@@ -805,22 +806,35 @@ text = "Pick up"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HitboxUp" type="CollisionShape2D" parent="."]
+[node name="AreaUp" type="Area2D" parent="."]
+
+[node name="HitboxUp" type="CollisionShape2D" parent="AreaUp"]
 position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_42hdn")
 disabled = true
 
-[node name="HitboxRight" type="CollisionShape2D" parent="."]
+[node name="AreaRight" type="Area2D" parent="."]
+
+[node name="HitboxRight" type="CollisionShape2D" parent="AreaRight"]
 position = Vector2(27, 0)
 shape = SubResource("RectangleShape2D_el37e")
 disabled = true
 
-[node name="HitboxLeft" type="CollisionShape2D" parent="."]
+[node name="AreaLeft" type="Area2D" parent="."]
+
+[node name="HitboxLeft" type="CollisionShape2D" parent="AreaLeft"]
 position = Vector2(-28, 0)
 shape = SubResource("RectangleShape2D_inrnk")
 disabled = true
 
-[node name="HitboxDown" type="CollisionShape2D" parent="."]
+[node name="AreaDown" type="Area2D" parent="."]
+
+[node name="HitboxDown" type="CollisionShape2D" parent="AreaDown"]
 position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_wqsd8")
 disabled = true
+
+[connection signal="body_entered" from="AreaUp" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="AreaRight" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="AreaLeft" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="AreaDown" to="." method="_on_hitbox_body_entered"]
