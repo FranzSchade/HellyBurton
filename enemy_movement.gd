@@ -36,7 +36,7 @@ func _physics_process(_delta: float) -> void:
 
 		var distance = global_position.distance_to(player.global_position)
 
-		if distance <= stop_distance:
+		if distance <= stop_distance and not is_hurt:
 			velocity = Vector2.ZERO
 			attack()
 		else:
@@ -89,35 +89,45 @@ func _on_timer_timeout() -> void:
 func damage(amount: int) -> void:
 	if is_dead:
 		return
+	print(health)
+	# Angriff abbrechen
+	if is_attacking:
+		is_attacking = false
+		_disable_all_hitboxes()
+		print(anim.animation)
+		anim.stop() # <- Animation wirklich abbrechen
 
 	health = clamp(health - amount, 0, max_health)
 	is_hurt = true
+	
 	anim.play("hurt_down")
 
-	# Nach Ende der Animation zurück in den Normalzustand
 	await anim.animation_finished
 	is_hurt = false
 
 	if health <= 0:
 		die()
 
+
+
 func _enable_hitbox(dir: String) -> void:
 	_disable_all_hitboxes()
 	match dir:
 		"up":
-			hitbox_up.disabled = false
+			hitbox_up.set_deferred("disabled", false)
 		"down":
-			hitbox_down.disabled = false
+			hitbox_down.set_deferred("disabled", false)
 		"left":
-			hitbox_left.disabled = false
+			hitbox_left.set_deferred("disabled", false)
 		"right":
-			hitbox_right.disabled = false
+			hitbox_right.set_deferred("disabled", false)
 
 func _disable_all_hitboxes() -> void:
-	hitbox_up.disabled = true
-	hitbox_down.disabled = true
-	hitbox_left.disabled = true
-	hitbox_right.disabled = true
+	hitbox_up.set_deferred("disabled", true)
+	hitbox_down.set_deferred("disabled", true)
+	hitbox_left.set_deferred("disabled", true)
+	hitbox_right.set_deferred("disabled", true)
+
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

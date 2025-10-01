@@ -2,22 +2,25 @@
 	"spawn": [
 		"My head hurts...",
 		"Where am I?",
-		"I should take a look around here."
+		"I should take a look around."
 	],
 	"vampire_cutscene_1_1": [
-		"???: Why did you let him escape you fool?",
-		"???: You know what happens with vampire spawns like you if they fail?",
-		"Vampire Spawn: I- I- I'm sorry Lord Astaroth .",
-		"Vampire Spawn: He got saved by you know who.",
+		"???: Why did you let him escape, you fool?",
+		"???: Do you know what happens to vampire spawns like you when they fail?",
+		"Vampire Spawn: I– I– I'm sorry, Lord Astaroth.",
+		"Vampire Spawn: He was saved by... you know who.",
 		"Vampire Spawn: What can a spawn like me do against someone like him?",
-		"Vampire Spawn: There was no other way other than to run.",
-		"Lord Astaroth: What disgusting excuses.",
-		"Lord Astaroth: You're lucky we wiped his memories, so he isn't a threat anymore.",
-		"Lord Astaroth: But that doesn't mean you won't be getting punished.",
-		"Vampire Spawn: Please don't!",
-		"Vampire Spawn: Have mercy!",
+		"Vampire Spawn: There was no other way but to run.",
+		"Lord Astaroth: Pathetic excuses.",
+		"Lord Astaroth: You're lucky we wiped his memories, so he is no longer a threat.",
+		"Lord Astaroth: But that doesn't mean you will escape punishment.",
+		"Vampire Spawn: Please, no!",
+		"Vampire Spawn: Have mercy!"
 	],
 	"vampire_cutscene_1_2": [
-		"Lord Astaroth:",
+		"Lord Astaroth: Interesting... I thought you'd wake up a little later.",
+		"You: What are you!?",
+		"Lord Astaroth: You'll find out soon. We have big plans for you.",
+		"You: Wait!"
 	]
 }

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1g1pif60tfng"]
+
+[ext_resource type="Texture2D" uid="uid://o2qedpa677ie" path="res://assets/NPC Pack/Woman/Woman Walk-Sheet.png" id="1_amy13"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tvhj"]
+atlas = ExtResource("1_amy13")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qfx47"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tvhj")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rwr7"]
+
+[node name="NPCWoman" type="CharacterBody2D"]
+texture_filter = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qfx47")
+animation = &"new_animation"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8rwr7")
