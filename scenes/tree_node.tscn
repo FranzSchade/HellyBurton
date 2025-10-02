@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://w5lpyd1yd8se"]
+
+[ext_resource type="Script" uid="uid://vm5y0altq1wl" path="res://tree_node.gd" id="1_cs86i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m7hul"]
+size = Vector2(30, 31)
+
+[node name="TreeNode" type="StaticBody2D" groups=["Tree"]]
+script = ExtResource("1_cs86i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_m7hul")

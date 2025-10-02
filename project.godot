@@ -30,6 +30,7 @@ window/size/viewport_height=1080
 Player=""
 Item=""
 Enemy=""
+Tree=""
 
 [input]
 

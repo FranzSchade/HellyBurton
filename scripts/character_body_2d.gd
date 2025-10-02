@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @export var speed := 125
 @export var max_health := 100
+@export var tool := ""
+
 var health = max_health
 
 var anim: AnimatedSprite2D
@@ -82,9 +84,17 @@ func _input(event: InputEvent) -> void:
 		inventory_canvas.visible = not inventory_canvas.visible
 		
 	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown:
-		attack()
+		#attack()
+		chop()
 
-
+func chop():
+	is_attacking = true
+	anim.play("chop_side")
+	_enable_hitbox("right")
+	await anim.animation_finished
+	is_attacking = false
+	_disable_all_hitboxes()
+	
 func attack() -> void:
 	is_attacking = true
 
@@ -183,3 +193,6 @@ func apply_item_effect(item):
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		body.damage(10)
+	if body.is_in_group("Tree"):
+		print("chopped")
+		body.chop()

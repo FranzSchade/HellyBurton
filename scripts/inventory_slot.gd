@@ -49,7 +49,8 @@ func set_item(new_item):
 	item_icon.texture = new_item["item_texture"]
 	item_effect.text = new_item["item_effect"]
 	if new_item["stackable"]:
-		item_quantity.text = new_item["quantity"]
+		print(new_item["item_quantity"])
+		item_quantity.text = str(new_item["item_quantity"])
 	item_in_hotbar = new_item["in_hotbar"]
 	
 

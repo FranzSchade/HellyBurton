@@ -21,7 +21,7 @@ func add_item(item, to_hotbar = false):
 	if not added_to_hotbar:
 		for i in range(inventory.size()):
 			if inventory[i] != null and inventory[i]["item_name"] == item["item_name"] and item["stackable"]:
-				inventory[i]["quantity"] += 1
+				inventory[i]["item_quantity"] += 1
 				inventory_updated.emit()
 				print(inventory)
 				return true
@@ -35,10 +35,10 @@ func add_item(item, to_hotbar = false):
 func remove_item(item):
 	for i in range(inventory.size()):
 		if inventory[i] != null and inventory[i]["item_name"] == item["item_name"]:
-			if inventory[i]["quantity"] == 1:
+			if inventory[i]["item_quantity"] == 1:
 				inventory[i] = null
 			else:
-				inventory[i]["quantity"] -= 1
+				inventory[i]["item_quantity"] -= 1
 			inventory_updated.emit()
 			return true
 	return false
@@ -73,11 +73,11 @@ func add_hotbar_item(item):
 func remove_hotbar_item(item):
 	for i in range(hotbar_inventory.size()):
 		if hotbar_inventory[i] != null and hotbar_inventory[i]["item_name"] == item["item_name"]:
-			if hotbar_inventory[i]["quantity"] == 1:
+			if hotbar_inventory[i]["item_quantity"] == 1:
 				hotbar_inventory[i] = null
 				item.in_hotbar = false
 			else:
-				hotbar_inventory[i]["quantity"] -= 1
+				hotbar_inventory[i]["item_quantity"] -= 1
 			inventory_updated.emit()
 			return true
 	return false

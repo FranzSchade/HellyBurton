@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://dj1he6kncjhd3"]
+
+[ext_resource type="Script" path="res://src/app/item/item_data.gd" id="1_aew4c"]
+[ext_resource type="Texture2D" uid="uid://bogodcnenxynq" path="res://src/app/data/textures/item_atlas.png" id="2_p8cdg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfdl8"]
+atlas = ExtResource("2_p8cdg")
+region = Rect2(0, 256, 128, 128)
+
+[resource]
+script = ExtResource("1_aew4c")
+item_type = 5
+name = "Wood"
+description = ""
+despawn_seconds = 300.0
+stackable = true
+max_stack_size = 1000
+texture = SubResource("AtlasTexture_yfdl8")
+crafting_cost = Array[Array]([])

@@ -6,6 +6,7 @@ extends Node2D
 @export var item_texture: Texture
 @export var item_effect = ""
 @export var stackable: bool
+var item_quantity
 var scene_path = preload("uid://b8vkxp76qk3t2")
 var player_in_range = false
 var in_hotbar = false
@@ -24,7 +25,7 @@ func _process(_delta: float) -> void:
 		
 func pickup_item():
 	var item = {
-		"quantity" = 1,
+		"item_quantity" = item_quantity,
 		"item_type" = item_type,
 		"item_name" = item_name,
 		"item_texture"= item_texture,
@@ -58,3 +59,4 @@ func set_item_data(data):
 	scene_path = data["scene_path"]
 	stackable = data["stackable"]
 	in_hotbar = data["in_hotbar"]
+	item_quantity = data["item_quantity"]

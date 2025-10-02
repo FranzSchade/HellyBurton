@@ -1,6 +1,6 @@
 [gd_scene load_steps=79 format=3 uid="uid://ch6t2g1agi7rv"]
 
-[ext_resource type="Script" uid="uid://bv77gi2sw013c" path="res://enemy_movement.gd" id="1_d7rco"]
+[ext_resource type="Script" uid="uid://bv77gi2sw013c" path="res://scripts/enemy_movement.gd" id="1_d7rco"]
 [ext_resource type="Texture2D" uid="uid://c8qh84vgj4kvh" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Attack_with_shadow.png" id="1_rv78h"]
 [ext_resource type="Texture2D" uid="uid://bp71s4cemh2so" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Run_with_shadow.png" id="2_7n8xq"]
 [ext_resource type="Texture2D" uid="uid://vcwb056e325x" path="res://assets/vampires/PNG/Vampires2/With_shadow/Vampires2_Idle_with_shadow.png" id="3_4wlns"]
