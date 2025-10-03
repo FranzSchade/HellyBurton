@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://defiwpjxdiq12"]
+
+[ext_resource type="Script" uid="uid://db3tskekegejl" path="res://ore_node.gd" id="1_on8wq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uni3r"]
+size = Vector2(67, 58)
+
+[node name="OreNode" type="StaticBody2D" groups=["Rock"]]
+script = ExtResource("1_on8wq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uni3r")

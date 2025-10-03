@@ -85,11 +85,20 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown:
 		#attack()
-		chop()
+		#chop()
+		mine()
 
 func chop():
 	is_attacking = true
 	anim.play("chop_side")
+	_enable_hitbox("right")
+	await anim.animation_finished
+	is_attacking = false
+	_disable_all_hitboxes()
+	
+func mine():
+	is_attacking = true
+	anim.play("mine_side")
 	_enable_hitbox("right")
 	await anim.animation_finished
 	is_attacking = false
@@ -196,3 +205,5 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Tree"):
 		print("chopped")
 		body.chop()
+	if body.is_in_group("Rock"):
+		body.mine()

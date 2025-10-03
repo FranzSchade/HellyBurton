@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=51 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://cgoi4vwpietsh" path="res://assets/Pixel Crawler - Free Pack/Weapons/Wood/Wood.png" id="17_muem4"]
 [ext_resource type="PackedScene" uid="uid://c1g1pif60tfng" path="res://scenes/npc_woman.tscn" id="22_jscy8"]
 [ext_resource type="PackedScene" uid="uid://w5lpyd1yd8se" path="res://scenes/tree_node.tscn" id="23_pm3ni"]
+[ext_resource type="PackedScene" uid="uid://defiwpjxdiq12" path="res://ore_node.tscn" id="24_y6deb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trceg"]
 bg_color = Color(0.5137255, 0, 0, 1)
@@ -4808,6 +4809,9 @@ position = Vector2(-683, 99)
 
 [node name="TreeNode" parent="." instance=ExtResource("23_pm3ni")]
 position = Vector2(592, 185)
+
+[node name="OreNode" parent="." instance=ExtResource("24_y6deb")]
+position = Vector2(756, 71)
 
 [connection signal="body_entered" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_entered"]
 [connection signal="body_exited" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_exited"]
