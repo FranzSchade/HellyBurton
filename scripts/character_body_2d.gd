@@ -2,7 +2,14 @@ extends CharacterBody2D
 
 @export var speed := 125
 @export var max_health := 100
-@export var tool := ""
+@export var tool = ""
+#@export enum Tool {
+#    NONE,
+#    SWORD,
+#    AXE,
+#    PICKAXE
+#}
+
 
 var health = max_health
 
@@ -84,25 +91,56 @@ func _input(event: InputEvent) -> void:
 		inventory_canvas.visible = not inventory_canvas.visible
 		
 	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown:
-		#attack()
-		#chop()
-		mine()
+		match tool:
+			"Sword":
+				attack()
+			"Axe":
+				tool_use("chop")
+			"Pickaxe":
+				tool_use("mine")
 
-func chop():
-	is_attacking = true
-	anim.play("chop_side")
-	_enable_hitbox("right")
-	await anim.animation_finished
-	is_attacking = false
-	_disable_all_hitboxes()
 	
-func mine():
+func tool_use(tool_name) -> void:
 	is_attacking = true
-	anim.play("mine_side")
-	_enable_hitbox("right")
+
+	# Richtung zur Maus berechnen
+	var mouse_pos = get_global_mouse_position()
+	var dir = (mouse_pos - global_position).normalized()
+
+	var tool_dir := "down"
+	if abs(dir.x) > abs(dir.y):
+		tool_dir = "right" if dir.x > 0 else "left"
+	elif dir.y < 0:
+		tool_dir = "up"
+	else:
+		tool_dir = "down"
+
+	# Animation wählen (nur eine pro Richtung)
+	if tool_dir == "left":
+		anim.play("%s_side" % tool_name)
+		anim.flip_h = true
+	elif tool_dir == "right":
+		anim.play("%s_side" % tool_name)
+		anim.flip_h = false
+	else:
+		anim.play("%s_%s" % [tool_name, tool_dir])
+
+
+	# Hitbox aktivieren
+	_enable_hitbox(tool_dir)
+
+	# Hitbox nach kurzer Zeit deaktivieren
+	await get_tree().create_timer(0.15).timeout
+	_disable_all_hitboxes()
+
+	# Warten bis Animation fertig
 	await anim.animation_finished
 	is_attacking = false
-	_disable_all_hitboxes()
+
+	# Kurzer Cooldown
+	attack_cooldown = true
+	await get_tree().create_timer(0.25).timeout
+	attack_cooldown = false
 	
 func attack() -> void:
 	is_attacking = true
