@@ -35,7 +35,7 @@ func add_item(item, to_hotbar = false):
 func remove_item(item):
 	for i in range(inventory.size()):
 		if inventory[i] != null and inventory[i]["item_name"] == item["item_name"]:
-			if inventory[i]["item_quantity"] == 1:
+			if inventory[i]["item_quantity"] <= 1:
 				inventory[i] = null
 			else:
 				inventory[i]["item_quantity"] -= 1

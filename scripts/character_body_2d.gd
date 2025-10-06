@@ -90,7 +90,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_inventory"):
 		inventory_canvas.visible = not inventory_canvas.visible
 		
-	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown:
+	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible:
 		match tool:
 			"Sword":
 				attack()
@@ -123,7 +123,8 @@ func tool_use(tool_name) -> void:
 		anim.play("%s_side" % tool_name)
 		anim.flip_h = false
 	else:
-		anim.play("%s_%s" % [tool_name, tool_dir])
+		anim.play("%s_side" % tool_name)
+		#anim.play("%s_%s" % [tool_name, tool_dir])
 
 
 	# Hitbox aktivieren

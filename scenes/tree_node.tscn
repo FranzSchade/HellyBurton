@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://w5lpyd1yd8se"]
+[gd_scene load_steps=5 format=3 uid="uid://w5lpyd1yd8se"]
 
 [ext_resource type="Script" uid="uid://vm5y0altq1wl" path="res://scripts/tree_node.gd" id="1_cs86i"]
 
@@ -8,15 +8,27 @@ size = Vector2(16, 32)
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cs86i"]
 load_path = "res://.godot/imported/TX Plant.png-12bb548ea53f8cfe77b0ac962f7f30f9.ctex"
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m7hul"]
+load_path = "res://.godot/imported/TX Plant.png-12bb548ea53f8cfe77b0ac962f7f30f9.ctex"
+
 [node name="TreeNode" type="StaticBody2D" groups=["Tree"]]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_cs86i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_m7hul")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 2
-position = Vector2(1, -55)
+position = Vector2(0, -72)
 texture = SubResource("CompressedTexture2D_cs86i")
 region_enabled = true
-region_rect = Rect2(24, 9, 112, 144)
+region_rect = Rect2(24, 9, 112, 126)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = SubResource("CompressedTexture2D_m7hul")
+region_enabled = true
+region_rect = Rect2(72, 135, 18, 18)

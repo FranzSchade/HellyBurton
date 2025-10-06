@@ -6,7 +6,7 @@ extends Node2D
 @export var item_texture: Texture
 @export var item_effect = ""
 @export var stackable: bool
-var item_quantity
+@export var item_quantity: int
 var scene_path = preload("uid://b8vkxp76qk3t2")
 var player_in_range = false
 var in_hotbar = false
