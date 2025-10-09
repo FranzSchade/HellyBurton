@@ -2,14 +2,6 @@ extends CharacterBody2D
 
 @export var speed := 125
 @export var max_health := 100
-@export var tool = ""
-#@export enum Tool {
-#    NONE,
-#    SWORD,
-#    AXE,
-#    PICKAXE
-#}
-
 
 var health = max_health
 
@@ -24,12 +16,14 @@ var anim: AnimatedSprite2D
 @onready var hitbox_right: CollisionShape2D = $AreaRight/HitboxRight
 @onready var hitbox_left: CollisionShape2D = $AreaLeft/HitboxLeft
 @onready var hitbox_down: CollisionShape2D = $AreaDown/HitboxDown
+@onready var equip_slot: Control = $"../PlayerHUD/EquipSlot"
 
 # --- Schlag-Variablen ---
 var is_attacking: bool = false
 var attack_cooldown: bool = false
 var last_attack_index := {"up": 1, "down": 1, "left": 1, "right": 1} # Merkt sich letzte Attacke
 var last_direction = "down"
+var equipped_item = null
 
 func _ready():
 	anim = $AnimatedSprite2D
@@ -90,14 +84,15 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_inventory"):
 		inventory_canvas.visible = not inventory_canvas.visible
 		
-	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible:
-		match tool:
-			"Sword":
-				attack()
-			"Axe":
-				tool_use("chop")
-			"Pickaxe":
-				tool_use("mine")
+	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible and equipped_item != null:
+		print(equipped_item["item_name"])
+		if equipped_item["item_name"].contains("_sword"):
+			attack()
+		elif equipped_item["item_name"].contains("_axe"):
+			tool_use("chop")
+		elif equipped_item["item_name"].contains("_pickaxe"):
+			tool_use("mine")
+			print("used pickaxe")
 
 	
 func tool_use(tool_name) -> void:
@@ -215,9 +210,7 @@ func _disable_all_hitboxes() -> void:
 
 func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		print("play vamp")
 		cutscene_player.play("vamp_cutscene_1")
-		print(cutscene_player.current_animation_length)
 		
 func damage(amount: int) -> void:
 	health = clamp(health - amount, 0, max_health)
@@ -242,7 +235,6 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		body.damage(10)
 	if body.is_in_group("Tree"):
-		print("chopped")
 		body.chop()
 	if body.is_in_group("Rock"):
 		body.mine()

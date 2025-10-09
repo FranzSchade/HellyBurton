@@ -27,10 +27,8 @@ func _ready() -> void:
 	label_2.visible = false
 	scene_text = load_scene_text()
 	center_dialog()
-	print(SignalBus)
 	SignalBus.display_dialog.connect(on_display_dialog) # Godot 4 Signal-Verbindung
 	SignalBus.cutscene_dialog.connect(on_cutscene_dialog)
-	print("DialogPlayer connected to SignalBus")
 	
 	
 func load_scene_text() -> Dictionary:
@@ -58,10 +56,8 @@ func finish():
 	label_2.visible = false
 	in_progress = false
 	get_tree().paused = false
-	print("finished")
 
 func on_display_dialog(text_key):
-	print("called with " + text_key)
 	if in_progress:
 		next_line()
 	else:
@@ -74,7 +70,6 @@ func on_display_dialog(text_key):
 		show_text()
 		
 func on_cutscene_dialog(text_key: String):
-	print("called with " + text_key)
 	get_tree().paused = true
 	background.visible = true
 	color_rect.visible = true

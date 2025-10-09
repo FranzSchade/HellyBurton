@@ -9,6 +9,7 @@ extends Control
 @onready var details: ColorRect = $Details
 @onready var usage: ColorRect = $Usage
 @onready var assign_button: Button = $Usage/AssignButton
+@onready var border_equipped: Panel = $BorderEquipped
 
 var item = null
 var hotbar_index = -1

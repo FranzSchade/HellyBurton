@@ -1,7 +1,8 @@
-[gd_scene load_steps=52 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=54 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cha06ymdrtac7" path="res://scenes/inventory_slot.tscn" id="2_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://bi7fasb4h65br" path="res://scenes/inventory.tscn" id="2_jkv2x"]
 [ext_resource type="TileSet" uid="uid://uhorp36vddxd" path="res://tile_sets/border_walls_set.tres" id="3_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://dflso4ougfy4q" path="res://scenes/inventory_hotbar.tscn" id="4_dp3eg"]
@@ -4640,7 +4641,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-897, -414, 362, -416, 
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_muem4"]
 atlas = ExtResource("17_muem4")
-region = Rect2(64, 0, 16, 48)
+region = Rect2(0, 48, 16, 32)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_muem4"]
 load_path = "res://.godot/imported/Wood.png-d4d91d6eeb837ab433b199aa77b0d670.ctex"
@@ -4648,6 +4649,10 @@ load_path = "res://.godot/imported/Wood.png-d4d91d6eeb837ab433b199aa77b0d670.cte
 [sub_resource type="AtlasTexture" id="AtlasTexture_dp3eg"]
 atlas = SubResource("CompressedTexture2D_muem4")
 region = Rect2(0, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og1vs"]
+atlas = ExtResource("17_muem4")
+region = Rect2(48, 16, 16, 28)
 
 [node name="Main" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [64.0]
@@ -4674,6 +4679,15 @@ offset_top = 12.0
 offset_right = 360.0
 offset_bottom = 48.0
 texture_progress = ExtResource("1_a8y0u")
+
+[node name="EquipSlot" parent="PlayerHUD" instance=ExtResource("2_2wyq8")]
+offset_left = 370.0
+offset_right = -1486.0
+script = null
+
+[node name="ItemButton" parent="PlayerHUD/EquipSlot" index="3"]
+visible = false
+disabled = true
 
 [node name="InventoryUI" type="CanvasLayer" parent="."]
 visible = false
@@ -4725,9 +4739,6 @@ process_mode = 3
 z_index = 1
 position = Vector2(820, 127)
 collision_layer = 3
-speed = 125
-max_health = 100
-tool = "Sword"
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 process_mode = 3
@@ -4795,20 +4806,19 @@ navigation_polygon = SubResource("NavigationPolygon_trceg")
 [node name="InventoryItem2" parent="." instance=ExtResource("16_muem4")]
 process_mode = 3
 position = Vector2(800, 0)
-item_type = "weapon"
-item_name = "wooden_spear "
+item_type = "equippable"
+item_name = "wooden_pickaxe"
 item_texture = SubResource("AtlasTexture_muem4")
 item_effect = "pointy hurt"
-item_quantity = null
+item_quantity = 1
 
 [node name="InventoryItem" parent="." instance=ExtResource("16_muem4")]
 process_mode = 3
 position = Vector2(908, 151)
-item_type = "weapon"
+item_type = "equippable"
 item_name = "wooden_sword"
 item_texture = SubResource("AtlasTexture_dp3eg")
 item_effect = "hurt"
-item_quantity = null
 
 [node name="NPCWoman" parent="." instance=ExtResource("22_jscy8")]
 position = Vector2(-683, 99)
@@ -4828,10 +4838,18 @@ position = Vector2(758, 443)
 [node name="TreeNode3" parent="." instance=ExtResource("23_pm3ni")]
 position = Vector2(578, 27)
 
+[node name="InventoryItem3" parent="." instance=ExtResource("16_muem4")]
+position = Vector2(500, 0)
+item_type = "equippable"
+item_name = "wooden_axe"
+item_texture = SubResource("AtlasTexture_og1vs")
+item_quantity = 1
+
 [connection signal="body_entered" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_entered"]
 [connection signal="body_exited" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_exited"]
 [connection signal="body_entered" from="cutscene_trigger_1" to="CharacterBody2D" method="_on_cutscene_trigger_1_body_entered"]
 
+[editable path="PlayerHUD/EquipSlot"]
 [editable path="DialogAreaInit"]
 [editable path="VampireBoss"]
 [editable path="VampireSpawn"]

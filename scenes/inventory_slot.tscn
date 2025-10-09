@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cha06ymdrtac7"]
+[gd_scene load_steps=7 format=3 uid="uid://cha06ymdrtac7"]
 
 [ext_resource type="Script" uid="uid://c680t0d8nounl" path="res://scripts/inventory_slot.gd" id="1_bxqf6"]
 [ext_resource type="FontFile" uid="uid://drpxclfw0kcnk" path="res://misc/m5x7.ttf" id="1_dxvxp"]
@@ -15,6 +15,15 @@ border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxqf6"]
 bg_color = Color(0, 0, 0, 0.7058824)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hddt5"]
+draw_center = false
+border_width_left = 7
+border_width_top = 7
+border_width_right = 7
+border_width_bottom = 7
+border_color = Color(6.808746, 6.808746, 6.808746, 1)
+border_blend = true
 
 [node name="InventorySlot" type="Control"]
 custom_minimum_size = Vector2(64, 64)
@@ -140,6 +149,16 @@ offset_right = 150.0
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_dxvxp")
 text = "Assign"
+
+[node name="BorderEquipped" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hddt5")
 
 [connection signal="mouse_entered" from="ItemButton" to="." method="_on_item_button_mouse_entered"]
 [connection signal="mouse_exited" from="ItemButton" to="." method="_on_item_button_mouse_exited"]

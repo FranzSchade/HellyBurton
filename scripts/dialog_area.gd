@@ -11,8 +11,6 @@ var triggered_once := false
 
 func _input(event: InputEvent) -> void:
 	if area_active and event.is_action_pressed("interact"):
-		print("signal")
-		print(dialog_key)
 		SignalBus.emit_signal("display_dialog", dialog_key)
 		if one_time:
 			triggered_once = true
@@ -28,7 +26,6 @@ func _on_body_entered(_body: Node) -> void:
 
 
 func _on_body_exited(_body: Node) -> void:
-	print("exited")
 	if one_time:
 		collision_shape_2d.set_deferred("disabled", true)
 	area_active = false
