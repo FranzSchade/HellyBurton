@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=55 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
@@ -4634,6 +4634,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
 size = Vector2(55, 31)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wyq8"]
+size = Vector2(518, 343)
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_trceg"]
 vertices = PackedVector2Array(-863.21875, 601.9531, -886.7578, -404.0078, 352, -405.97656, 352, -340.1172, 1475.1484, -64.42969, 1488.7813, 592.03906, 1377.5313, -92.609375, 1350.7266, -342.07813, 1355.7188, -523.59375, 1507.4609, -517.4219, 1498.4688, -353.8203, 1392.5234, -339.82813, 850.7422, -304.4922, 858.8828, -338.0625, 770, -335.10938, 770, -309.60938)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 0, 3, 6), PackedInt32Array(7, 8, 9, 10, 11), PackedInt32Array(7, 11, 6, 12, 13), PackedInt32Array(3, 14, 15), PackedInt32Array(6, 3, 15), PackedInt32Array(6, 15, 12)])
@@ -4796,6 +4799,25 @@ collision_mask = 3
 position = Vector2(-4.5, -67.5)
 shape = SubResource("RectangleShape2D_trceg")
 
+[node name="cutscene_trigger_2" type="Area2D" parent="."]
+position = Vector2(1640, -662)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cutscene_trigger_2"]
+position = Vector2(-4.5, -67.5)
+shape = SubResource("RectangleShape2D_trceg")
+
+[node name="VillageMeeting1" parent="." instance=ExtResource("8_tipki")]
+position = Vector2(-559, 209)
+dialog_key = "village_meeting_1"
+one_time = true
+on_entered = true
+
+[node name="CollisionShape2D" parent="VillageMeeting1" index="0"]
+position = Vector2(-60, -20.5)
+shape = SubResource("RectangleShape2D_2wyq8")
+
 [node name="VampireSpawnTest" parent="." instance=ExtResource("13_a8y0u")]
 position = Vector2(1212, 33)
 
@@ -4853,4 +4875,5 @@ item_quantity = 1
 [editable path="DialogAreaInit"]
 [editable path="VampireBoss"]
 [editable path="VampireSpawn"]
+[editable path="VillageMeeting1"]
 [editable path="OreNode"]

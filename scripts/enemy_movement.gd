@@ -1,40 +1,42 @@
 extends CharacterBody2D
 
-@export var speed := 75.0
+# === CONFIG ===
+@export var speed: float = 75.0
+@export var max_health: int = 50
+@export var stop_distance: float = 35.0
+
+# === STATE ===
 var chasing := false
 var player: Node2D = null
-var health = 50
-var max_health = 50
-var stop_distance = 35
+var health := max_health
 
-var is_hurt = false
-var is_dead = false
+var is_hurt := false
+var is_dead := false
+var is_attacking := false
+var attack_cooldown := false
 
+# === NODES ===
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var timer: Timer = $Timer
 
-var is_attacking = false
-var attack_cooldown = false
+@onready var hitboxes := {
+	"up": $AreaUp/HitboxUp,
+	"down": $AreaDown/HitboxDown,
+	"left": $AreaLeft/HitboxLeft,
+	"right": $AreaRight/HitboxRight
+}
 
-@onready var hitbox_up: CollisionShape2D = $AreaUp/HitboxUp
-@onready var hitbox_down: CollisionShape2D = $AreaDown/HitboxDown
-@onready var hitbox_left: CollisionShape2D = $AreaLeft/HitboxLeft
-@onready var hitbox_right: CollisionShape2D = $AreaRight/HitboxRight
-
-
-
+# === PHYSICS ===
 func _physics_process(_delta: float) -> void:
 	if is_dead or is_attacking:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
 	
-
-	if chasing and player:
+	if chasing and player and not is_dead:
 		nav_agent.target_position = player.global_position
-
-		var distance = global_position.distance_to(player.global_position)
+		var distance := global_position.distance_to(player.global_position)
 
 		if distance <= stop_distance and not is_hurt:
 			velocity = Vector2.ZERO
@@ -52,7 +54,7 @@ func _physics_process(_delta: float) -> void:
 		_update_animation()
 
 
-
+# === ANIMATION ===
 func _update_animation() -> void:
 	if velocity == Vector2.ZERO:
 		anim.play("idle_down")
@@ -66,6 +68,7 @@ func _update_animation() -> void:
 			anim.play("flight_down")
 
 
+# === DETECTION ===
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		chasing = true
@@ -81,88 +84,56 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 
 func _on_timer_timeout() -> void:
-	if player and nav_agent.target_position != player.global_position:
+	if player:
 		nav_agent.target_position = player.global_position
 	timer.start()
 
 
+# === DAMAGE SYSTEM ===
 func damage(amount: int) -> void:
 	if is_dead:
 		return
-	print(health)
-	# Angriff abbrechen
+
+	# Angriff abbrechen, wenn getroffen
 	if is_attacking:
 		is_attacking = false
 		_disable_all_hitboxes()
-		print(anim.animation)
-		anim.stop() # <- Animation wirklich abbrechen
+		anim.stop()
 
 	health = clamp(health - amount, 0, max_health)
 	is_hurt = true
-	
 	anim.play("hurt_down")
 
 	await anim.animation_finished
-	is_hurt = false
 
+	is_hurt = false
 	if health <= 0:
 		die()
 
 
-
-func _enable_hitbox(dir: String) -> void:
-	_disable_all_hitboxes()
-	match dir:
-		"up":
-			hitbox_up.set_deferred("disabled", false)
-		"down":
-			hitbox_down.set_deferred("disabled", false)
-		"left":
-			hitbox_left.set_deferred("disabled", false)
-		"right":
-			hitbox_right.set_deferred("disabled", false)
-
-func _disable_all_hitboxes() -> void:
-	hitbox_up.set_deferred("disabled", true)
-	hitbox_down.set_deferred("disabled", true)
-	hitbox_left.set_deferred("disabled", true)
-	hitbox_right.set_deferred("disabled", true)
-
-
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		if body.has_method("damage"):
-			body.damage(10)
-
-
-func die() -> void:
-	is_dead = true
-	anim.play("death_side")
-	await anim.animation_finished
-	queue_free()
-	
+# === ATTACK SYSTEM ===
 func attack() -> void:
-	if is_attacking or attack_cooldown or is_dead:
+	if is_attacking or attack_cooldown or is_dead or is_hurt:
 		return
 
 	is_attacking = true
 
-	var dir = (player.global_position - global_position).normalized()
-	var attack_dir = "down"
-	if abs(dir.x) > abs(dir.y):
-		attack_dir = "right" if dir.x > 0 else "left"
-	elif dir.y < 0:
-		attack_dir = "up"
-	else:
-		attack_dir = "down"
+	# Richtung zum Spieler berechnen
+	var dir := (player.global_position - global_position).normalized()
+	var attack_dir := _get_attack_direction(dir)
 
-	if attack_dir == "left" or attack_dir == "right":
-		anim.play("attack_side")
-		anim.flip_h = attack_dir == "left"
-	else:
-		anim.play("attack_%s" % attack_dir)
+	# Animationen
+	match attack_dir:
+		"left", "right":
+			anim.play("attack_side")
+			anim.flip_h = attack_dir == "left"
+		"up":
+			anim.play("attack_up")
+		"down":
+			anim.play("attack_down")
 
-	await get_tree().create_timer(0.5).timeout
+	# Warte leicht, bevor die Hitbox aktiv wird
+	await get_tree().create_timer(0.4).timeout
 	_enable_hitbox(attack_dir)
 
 	await anim.animation_finished
@@ -170,5 +141,37 @@ func attack() -> void:
 
 	is_attacking = false
 	attack_cooldown = true
-	await get_tree().create_timer(0.25).timeout
+	await get_tree().create_timer(0.4).timeout
 	attack_cooldown = false
+
+
+func _get_attack_direction(dir: Vector2) -> String:
+	if abs(dir.x) > abs(dir.y):
+		return "right" if dir.x > 0 else "left"
+	return "up" if dir.y < 0 else "down"
+
+
+# === HITBOXES ===
+func _enable_hitbox(dir: String) -> void:
+	_disable_all_hitboxes()
+	if hitboxes.has(dir):
+		hitboxes[dir].set_deferred("disabled", false)
+
+
+func _disable_all_hitboxes() -> void:
+	for hb in hitboxes.values():
+		hb.set_deferred("disabled", true)
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player") and body.has_method("damage"):
+		body.damage(10)
+
+
+# === DEATH ===
+func die() -> void:
+	is_dead = true
+	_disable_all_hitboxes()
+	anim.play("death_side")
+	await anim.animation_finished
+	queue_free()

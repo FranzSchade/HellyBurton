@@ -1,240 +1,228 @@
 extends CharacterBody2D
 
-@export var speed := 125
-@export var max_health := 100
+# === EXPORTED VARS ===
+@export var speed: float = 125.0
+@export var max_health: int = 100
 
-var health = max_health
+# === STATS ===
+var health: int = max_health
 
-var anim: AnimatedSprite2D
-@onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
+# === STATE ===
+var is_attacking := false
+var attack_cooldown := false
+var last_direction := "down"
+var last_attack_index := {"up": 1, "down": 1, "left": 1, "right": 1}
+var equipped_item: Dictionary = {}
+
+# === NODES ===
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
 @onready var health_bar: TextureProgressBar = $"../PlayerHUD/HealthBar"
 @onready var inventory_canvas: CanvasLayer = $"../InventoryUI"
 @onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
-@onready var hitbox_up: CollisionShape2D = $AreaUp/HitboxUp
-@onready var hitbox_right: CollisionShape2D = $AreaRight/HitboxRight
-@onready var hitbox_left: CollisionShape2D = $AreaLeft/HitboxLeft
-@onready var hitbox_down: CollisionShape2D = $AreaDown/HitboxDown
 @onready var equip_slot: Control = $"../PlayerHUD/EquipSlot"
 
-# --- Schlag-Variablen ---
-var is_attacking: bool = false
-var attack_cooldown: bool = false
-var last_attack_index := {"up": 1, "down": 1, "left": 1, "right": 1} # Merkt sich letzte Attacke
-var last_direction = "down"
-var equipped_item = null
+# Hitboxes
+@onready var hitboxes := {
+	"up": $AreaUp/HitboxUp,
+	"down": $AreaDown/HitboxDown,
+	"left": $AreaLeft/HitboxLeft,
+	"right": $AreaRight/HitboxRight
+}
 
+# === SETUP ===
 func _ready():
-	anim = $AnimatedSprite2D
 	health_bar.max_value = max_health
 	health_bar.value = health
 	Inventory.set_player(self)
-	
-func _physics_process(_delta):
-	# Bewegung blockieren bei Attacke oder Cooldown
+
+
+# === PHYSICS ===
+func _physics_process(_delta: float) -> void:
 	if is_attacking or attack_cooldown:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-	
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("walk_right") - Input.get_action_strength("walk_left")
-	input_vector.y = Input.get_action_strength("walk_down") - Input.get_action_strength("walk_up")
-	
-	# Normalisieren → diagonale Bewegungen nicht schneller
-	if input_vector != Vector2.ZERO:
-		input_vector = input_vector.normalized()
 
-	velocity = input_vector * speed
+	handle_movement()
 	move_and_slide()
 
-	# Animation wechseln (nur wenn nicht im Angriff)
-	if velocity.length() == 0:
+	if not is_attacking:
+		update_animation()
+
+
+# === MOVEMENT ===
+func handle_movement() -> void:
+	var input_vector := Vector2(
+		Input.get_action_strength("walk_right") - Input.get_action_strength("walk_left"),
+		Input.get_action_strength("walk_down") - Input.get_action_strength("walk_up")
+	).normalized()
+
+	velocity = input_vector * speed
+
+	if input_vector != Vector2.ZERO:
+		if abs(input_vector.x) > abs(input_vector.y):
+			last_direction = "right" if input_vector.x > 0 else "left"
+		else:
+			last_direction = "down" if input_vector.y > 0 else "up"
+
+
+func update_animation() -> void:
+	if velocity == Vector2.ZERO:
 		match last_direction:
 			"left":
 				anim.play("idle_side")
 				anim.flip_h = true
 			"right":
 				anim.play("idle_side")
+				anim.flip_h = false
 			"up":
 				anim.play("idle_up")
 			"down":
 				anim.play("idle_down")
-			
-	elif velocity.x != 0:
-		anim.play("walk_side")
-	elif velocity.y < 0:
-		anim.play("walk_up")
-		last_direction = "up"
 	else:
-		anim.play("walk_down")
-		last_direction = "down"
+		match last_direction:
+			"left":
+				anim.play("walk_side")
+				anim.flip_h = true
+			"right":
+				anim.play("walk_side")
+				anim.flip_h = false
+			"up":
+				anim.play("walk_up")
+			"down":
+				anim.play("walk_down")
 
-	# Flip für Seitenbewegung
-	if velocity.x < 0:
-		anim.flip_h = true
-		last_direction = "left"
-	elif velocity.x > 0:
-		anim.flip_h = false
-		last_direction = "right"
 
-
+# === INPUT ===
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_inventory"):
 		inventory_canvas.visible = not inventory_canvas.visible
-		
-	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible and equipped_item != null:
-		print(equipped_item["item_name"])
-		if equipped_item["item_name"].contains("_sword"):
-			attack()
-		elif equipped_item["item_name"].contains("_axe"):
-			tool_use("chop")
-		elif equipped_item["item_name"].contains("_pickaxe"):
-			tool_use("mine")
-			print("used pickaxe")
+		return
 
-	
-func tool_use(tool_name) -> void:
+	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible:
+		use_equipped_item()
+
+
+# === ACTIONS ===
+func use_equipped_item() -> void:
+	if equipped_item.is_empty():
+		return
+
+	var item_name = equipped_item.get("item_name", "")
+	if item_name.contains("_sword"):
+		attack()
+	elif item_name.contains("_axe"):
+		tool_use("chop")
+	elif item_name.contains("_pickaxe"):
+		tool_use("mine")
+
+
+func attack() -> void:
+	await perform_action("hit", true)
+
+
+func tool_use(tool_name: String) -> void:
+	await perform_action(tool_name, false)
+
+
+# === GENERIC ATTACK FUNCTION ===
+func perform_action(base_name: String, use_combo: bool) -> void:
 	is_attacking = true
 
-	# Richtung zur Maus berechnen
-	var mouse_pos = get_global_mouse_position()
-	var dir = (mouse_pos - global_position).normalized()
+	var mouse_pos := get_global_mouse_position()
+	var dir := (mouse_pos - global_position).normalized()
+	var direction := get_attack_direction(dir)
 
-	var tool_dir := "down"
-	if abs(dir.x) > abs(dir.y):
-		tool_dir = "right" if dir.x > 0 else "left"
-	elif dir.y < 0:
-		tool_dir = "up"
+	# --- Animation bestimmen ---
+	var anim_name: String
+	if use_combo:
+		var index = last_attack_index[direction]
+		last_attack_index[direction] = (index % 2) + 1
+		anim_name = "hit_%s_%d" % [direction, last_attack_index[direction]]
 	else:
-		tool_dir = "down"
+		anim_name = "%s_%s" % [base_name, "side" if direction in ["left", "right"] else direction]
 
-	# Animation wählen (nur eine pro Richtung)
-	if tool_dir == "left":
-		anim.play("%s_side" % tool_name)
+	# Seiten-Animation flippen
+	if direction == "left":
 		anim.flip_h = true
-	elif tool_dir == "right":
-		anim.play("%s_side" % tool_name)
+	elif direction == "right":
 		anim.flip_h = false
-	else:
-		anim.play("%s_side" % tool_name)
-		#anim.play("%s_%s" % [tool_name, tool_dir])
 
+	anim.play(anim_name)
 
-	# Hitbox aktivieren
-	_enable_hitbox(tool_dir)
-
-	# Hitbox nach kurzer Zeit deaktivieren
+	# --- Hitboxen ---
+	_enable_hitbox(direction)
 	await get_tree().create_timer(0.15).timeout
-	_disable_all_hitboxes()
+	_disable_hitboxes()
 
-	# Warten bis Animation fertig
+	# --- Ende der Animation ---
 	await anim.animation_finished
 	is_attacking = false
 
-	# Kurzer Cooldown
+	# --- Cooldown ---
 	attack_cooldown = true
 	await get_tree().create_timer(0.25).timeout
 	attack_cooldown = false
-	
-func attack() -> void:
-	is_attacking = true
 
-	# Richtung zur Maus berechnen
-	var mouse_pos = get_global_mouse_position()
-	var dir = (mouse_pos - global_position).normalized()
 
-	var attack_dir := "down"
+func get_attack_direction(dir: Vector2) -> String:
 	if abs(dir.x) > abs(dir.y):
-		attack_dir = "right" if dir.x > 0 else "left"
-	elif dir.y < 0:
-		attack_dir = "up"
-	else:
-		attack_dir = "down"
-
-	# Abwechseln zwischen 1 und 2
-	var index = last_attack_index[attack_dir]
-	var next_index = (index % 2) + 1
-	last_attack_index[attack_dir] = next_index
-
-	# Animationsname bauen
-	var anim_name = "hit_%s_%d" % [attack_dir, next_index]
-
-	# Seiten-Animation + Flip
-	if attack_dir == "left":
-		anim.play("hit_side_%d" % [next_index])
-		anim.flip_h = true
-	elif attack_dir == "right":
-		anim.play("hit_side_%d" % [next_index])
-		anim.flip_h = false
-	else:
-		anim.play(anim_name)
-
-	# Hitbox aktivieren
-	_enable_hitbox(attack_dir)
-
-	# Hitbox nach kurzer Zeit deaktivieren
-	await get_tree().create_timer(0.15).timeout
-	_disable_all_hitboxes()
-
-	# Warten bis Animation fertig
-	await anim.animation_finished
-	is_attacking = false
-
-	# Kurzer Cooldown
-	attack_cooldown = true
-	await get_tree().create_timer(0.2).timeout
-	attack_cooldown = false
+		return "right" if dir.x > 0 else "left"
+	return "up" if dir.y < 0 else "down"
 
 
+# === HITBOX HANDLING ===
 func _enable_hitbox(dir: String) -> void:
-	_disable_all_hitboxes()
-	match dir:
-		"up":
-			hitbox_up.disabled = false
-		"down":
-			hitbox_down.disabled = false
-		"left":
-			hitbox_left.disabled = false
-		"right":
-			hitbox_right.disabled = false
+	_disable_hitboxes()
+	if hitboxes.has(dir):
+		hitboxes[dir].set_deferred("disabled", false)
 
 
-func _disable_all_hitboxes() -> void:
-	hitbox_up.disabled = true
-	hitbox_down.disabled = true
-	hitbox_left.disabled = true
-	hitbox_right.disabled = true
+func _disable_hitboxes() -> void:
+	for hb in hitboxes.values():
+		hb.set_deferred("disabled", true)
 
 
-func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		cutscene_player.play("vamp_cutscene_1")
-		
+# === DAMAGE & HEAL ===
 func damage(amount: int) -> void:
 	health = clamp(health - amount, 0, max_health)
 	health_bar.value = health
 	if health <= 0:
-		pass
-		
+		die()
+
+
 func heal(amount: int) -> void:
 	health = clamp(health + amount, 0, max_health)
 	health_bar.value = health
-	
-	
-func apply_item_effect(item):
-	match item["effect"]:
+
+
+func die() -> void:
+	queue_free()
+
+
+# === ITEM EFFECTS ===
+func apply_item_effect(item: Dictionary) -> void:
+	match item.get("effect", ""):
 		"Stamina":
 			speed += 50
 		"Health":
-			heal(item["amount"])
+			heal(item.get("amount", 0))
 
 
+# === COLLISION EVENTS ===
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		body.damage(10)
-	if body.is_in_group("Tree"):
+	elif body.is_in_group("Tree"):
 		body.chop()
-	if body.is_in_group("Rock"):
+	elif body.is_in_group("Rock"):
 		body.mine()
+
+
+# === CUTSCENE ===
+func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		cutscene_player.play("vamp_cutscene_1")
