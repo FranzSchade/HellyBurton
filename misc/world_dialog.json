@@ -24,19 +24,27 @@
 		"You: Wait!"
 	],
 	"village_meeting_1": [
-	"??? : Stop right there! Who are you?",
-	"You: I... I don’t know. I just woke up nearby.",
-	"??? : Don’t lie to me. You’re one of them, aren’t you?",
-	"You: One of who?",
-	"??? : The vampires. They’ve been roaming around the woods at night.",
-	"You: I’m not a vampire. I swear. I don’t even know how I got here.",
-	"??? : That’s what they all say.",
-	"You: Please, I just need to know where I am.",
-	"??? : This is Hollowbrook. And we don’t take kindly to strangers.",
-	"You: I’m not looking for trouble.",
-	"??? : Then you’d better move along before someone else sees you. They won’t ask questions like I did.",
-	"You: ...Right. I’ll go.",
-	"??? : Good. And don’t come back after dark."
-]
+		"??? : Stop right there! Who are you?",
+		"You: I... I don’t know. I just woke up nearby.",
+		"??? : Don’t lie to me. You’re one of them, aren’t you?",
+		"You: One of who?",
+		"??? : The vampires. They’ve been roaming around the woods at night.",
+		"You: I’m not a vampire. I swear. I don’t even know how I got here.",
+		"??? : That’s what they all say.",
+		"You: Please, I just need to know where I am.",
+		"??? : This is Hollowbrook. And we don’t take kindly to strangers.",
+		"You: I’m not looking for trouble.",
+		"??? : Then you’d better move along before someone else sees you. They won’t ask questions like I did.",
+		"You: ...Right. I’ll go.",
+		"??? : Good. And don’t come back after dark."
+	],
+	"village_meeting_1_2": [
+		"??? : Where is my axe?",
+		"??? : I can't find it...",
+		"??? : I must've left it outside...",
+		"??? : This stranger is still outside..",
+		"??? : I guess I'll have no firewood for tonight",
+		"??? : I hope my father comes back soon...",
+	],
 
 }

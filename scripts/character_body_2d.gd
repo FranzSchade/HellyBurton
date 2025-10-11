@@ -23,6 +23,8 @@ var equipped_item: Dictionary = {}
 @onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
 @onready var equip_slot: Control = $"../PlayerHUD/EquipSlot"
+@onready var cutscene_trigger_1: Area2D = $"../cutscene_trigger_1"
+@onready var cutscene_trigger_2: Area2D = $"../cutscene_trigger_2"
 
 # Hitboxes
 @onready var hitboxes := {
@@ -226,3 +228,13 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		cutscene_player.play("vamp_cutscene_1")
+		await cutscene_player.animation_finished
+		cutscene_trigger_1.queue_free()
+
+
+func _on_cutscene_trigger_2_body_entered(body: Node2D) -> void:
+	print("test")
+	if body.is_in_group("Player"):
+		cutscene_player.play("village_cutscene_1")
+		await cutscene_player.animation_finished
+		cutscene_trigger_2.queue_free()
