@@ -1,9 +1,11 @@
-[gd_scene load_steps=56 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=58 format=4 uid="uid://7dtdnw8vcbcx"]
 
+[ext_resource type="PackedScene" uid="uid://c5el1bsf2peuo" path="res://scenes/quest_manager.tscn" id="1_2f3dj"]
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
 [ext_resource type="TileSet" uid="uid://ckkxgtk0tpsri" path="res://tile_sets/ground_set.tres" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cha06ymdrtac7" path="res://scenes/inventory_slot.tscn" id="2_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://bi7fasb4h65br" path="res://scenes/inventory.tscn" id="2_jkv2x"]
+[ext_resource type="FontFile" uid="uid://drpxclfw0kcnk" path="res://misc/m5x7.ttf" id="3_vxglm"]
 [ext_resource type="TileSet" uid="uid://uhorp36vddxd" path="res://tile_sets/border_walls_set.tres" id="3_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://dflso4ougfy4q" path="res://scenes/inventory_hotbar.tscn" id="4_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://b8wgma2x8rok1" path="res://scenes/character_body_2d.tscn" id="6_ya4ey"]
@@ -4615,7 +4617,7 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="Animation_2wyq8"]
 resource_name = "village_cutscene_1"
-length = 4.0
+length = 3.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -4623,7 +4625,7 @@ tracks/0/path = NodePath("DialogPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1, 3.1333334),
+"times": PackedFloat32Array(0, 2.0666666),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": ["village_meeting_1"],
@@ -4640,7 +4642,7 @@ tracks/1/path = NodePath("NPCWoman:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1.0333333, 3),
+"times": PackedFloat32Array(0.03333336, 1.9666667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-683, 99), Vector2(-800, 85)]
@@ -4652,7 +4654,7 @@ tracks/2/path = NodePath("NPCWoman:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(3),
+"times": PackedFloat32Array(1.9666667),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -4664,10 +4666,24 @@ tracks/3/path = NodePath("CharacterBody2D:process_mode")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 4),
+"times": PackedFloat32Array(0, 2.8666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 3]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("QuestManager")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.8333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["quest_1"],
+"method": &"set_quest"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trceg"]
@@ -4738,6 +4754,37 @@ script = null
 visible = false
 disabled = true
 
+[node name="BackgroundQuest" type="ColorRect" parent="PlayerHUD"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -201.0
+offset_right = -1.0
+offset_bottom = 100.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+
+[node name="QuestName" type="Label" parent="PlayerHUD/BackgroundQuest"]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("3_vxglm")
+text = "Quest Name"
+
+[node name="QuestText" type="Label" parent="PlayerHUD/BackgroundQuest"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 200.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_vxglm")
+text = "QuestText"
+
 [node name="InventoryUI" type="CanvasLayer" parent="."]
 visible = false
 
@@ -4756,6 +4803,9 @@ scene_text_file = "res://misc/world_dialog.json"
 
 [node name="InventoryHotbar" parent="InventoryHotbar" instance=ExtResource("4_dp3eg")]
 metadata/_edit_use_anchors_ = true
+
+[node name="QuestManager" parent="." instance=ExtResource("1_2f3dj")]
+quest_text_file = "res://misc/quest_text.json"
 
 [node name="Ground" type="TileMapLayer" parent="."]
 z_index = -2
