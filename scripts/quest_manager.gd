@@ -10,9 +10,17 @@ var current_quest := {}
 var quest_title := ""
 var quest_task := ""
 var quest_dict = {}
+var active_quest := false
+var quest_requiry = {}
 
 func _ready():
 	quest_dict = load_quest_text()
+
+func _process(_delta):
+	if active_quest:
+		for key in quest_requiry:
+			if Inventory.get_item(key) == quest_requiry[key]:
+				print("Requirements fulfilled")
 
 func load_quest_text() -> Dictionary:
 	if FileAccess.file_exists(quest_text_file):
@@ -24,8 +32,11 @@ func load_quest_text() -> Dictionary:
 	return {}
 
 func set_quest(quest_key):
+	active_quest = true
 	current_quest = quest_dict[quest_key].duplicate()
 	quest_name.text = current_quest["title"]
 	quest_text.text = current_quest["task"]
+	quest_requiry = current_quest["items"]
 	background_quest.visible = true
+	print(current_quest)
 	

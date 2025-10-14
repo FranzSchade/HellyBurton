@@ -90,6 +90,12 @@ func unassign_hotbar_item(item):
 			inventory_updated.emit()
 			return true
 	return false
+	
+func get_item(item_name):
+	for i in range(inventory.size()):
+		if inventory[i] != null and inventory[i]["item_name"] == item_name:
+			return inventory[i]["item_quantity"]
+	return -1
 
 func increase_inventory_size():
 	inventory_updated.emit()
