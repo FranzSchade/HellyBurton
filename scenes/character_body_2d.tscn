@@ -467,6 +467,11 @@ region = Rect2(672, 0, 96, 80)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_35mu4"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"chop_down",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_uvgk6")
@@ -495,6 +500,11 @@ animations = [{
 "loop": false,
 "name": &"chop_side",
 "speed": 32.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"chop_up",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -757,6 +767,11 @@ animations = [{
 "name": &"idle_up",
 "speed": 8.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"mine_down",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ah3p1")
@@ -785,6 +800,11 @@ animations = [{
 "loop": false,
 "name": &"mine_side",
 "speed": 32.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"mine_up",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -893,11 +913,10 @@ size = Vector2(46, 20)
 texture_filter = 1
 collision_mask = 3
 script = ExtResource("1_t53lx")
-tool = "Pickaxe"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_35mu4")
-animation = &"mine_side"
+animation = &"chop_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 8.5)
