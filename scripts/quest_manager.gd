@@ -12,6 +12,7 @@ var quest_task := ""
 var quest_dict = {}
 var active_quest := false
 var quest_requiry = {}
+var quest_counter = 0
 
 func _ready():
 	quest_dict = load_quest_text()
@@ -29,6 +30,7 @@ func _process(_delta):
 			print("quest_done")
 			active_quest = false
 			quest_text.text = "Done!!"
+			quest_counter += 1
 
 func load_quest_text() -> Dictionary:
 	if FileAccess.file_exists(quest_text_file):
