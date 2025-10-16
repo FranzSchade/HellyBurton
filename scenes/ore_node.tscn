@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://defiwpjxdiq12"]
+[gd_scene load_steps=4 format=3 uid="uid://defiwpjxdiq12"]
 
 [ext_resource type="Script" uid="uid://db3tskekegejl" path="res://scripts/ore_node.gd" id="1_on8wq"]
+[ext_resource type="Texture2D" uid="uid://csnuph03hry7o" path="res://ressources/rock.png" id="2_s7nq5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uni3r"]
 size = Vector2(32, 32)
@@ -12,3 +13,4 @@ script = ExtResource("1_on8wq")
 shape = SubResource("RectangleShape2D_uni3r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_s7nq5")

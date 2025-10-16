@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @export var health := 3
-@export var wood_drop := 2
+@export var drop := 2
 const STONE = preload("uid://ceqmcb03nfh1o")
 const INVENTORY_ITEM = preload("uid://b8vkxp76qk3t2")
 
