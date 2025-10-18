@@ -23,9 +23,6 @@ var equipped_item: Dictionary = {}
 @onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
 @onready var equip_slot: Control = $"../PlayerHUD/EquipSlot"
-@onready var cutscene_trigger_1: Area2D = $"../cutscene_trigger_1"
-@onready var cutscene_trigger_2: Area2D = $"../cutscene_trigger_2"
-@onready var cutscene_trigger_3: Area2D = $"../cutscene_trigger_3"
 @onready var quest_manager: QuestManager = $"../QuestManager"
 
 # Hitboxes
@@ -227,22 +224,9 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 
 # === CUTSCENE ===
-func _on_cutscene_trigger_1_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		cutscene_player.play("vamp_cutscene_1")
+func _on_cutscene_trigger_body_entered(body: Node2D, cutscene_name: String, sender_name: String, quest_count: int) -> void:
+	if body.is_in_group("Player") and quest_manager.quest_counter >= quest_count:
+		cutscene_player.play(cutscene_name)
 		await cutscene_player.animation_finished
-		cutscene_trigger_1.queue_free()
-
-
-func _on_cutscene_trigger_2_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		cutscene_player.play("village_cutscene_1")
-		await cutscene_player.animation_finished
-		cutscene_trigger_2.queue_free()
-
-
-func _on_cutscene_trigger_3_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and quest_manager.quest_counter >= 1:
-		cutscene_player.play("village_cutscene_1_2")
-		await cutscene_player.animation_finished
-		cutscene_trigger_3.queue_free()
+		var sender = get_node("../" + sender_name)
+		sender.queue_free()

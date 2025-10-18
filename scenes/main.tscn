@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://7dtdnw8vcbcx"]
+[gd_scene load_steps=59 format=4 uid="uid://7dtdnw8vcbcx"]
 
 [ext_resource type="PackedScene" uid="uid://c5el1bsf2peuo" path="res://scenes/quest_manager.tscn" id="1_2f3dj"]
 [ext_resource type="Texture2D" uid="uid://73ot3b7hnw61" path="res://misc/pixil-frame-0(1).png" id="1_a8y0u"]
@@ -4496,6 +4496,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NPCWoman:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-683, 99)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NPCWoman:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ya4ey"]
 resource_name = "vamp_cutscene_1"
@@ -4685,11 +4709,53 @@ tracks/4/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_vxglm"]
+resource_name = "village_cutscene_1_2"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NPCWoman:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-800, 110)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NPCWoman:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DialogPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["village_meeting_1_3"],
+"method": &"on_cutscene_dialog"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trceg"]
 _data = {
 &"RESET": SubResource("Animation_eb6dy"),
 &"vamp_cutscene_1": SubResource("Animation_ya4ey"),
-&"village_cutscene_1": SubResource("Animation_2wyq8")
+&"village_cutscene_1": SubResource("Animation_2wyq8"),
+&"village_cutscene_1_2": SubResource("Animation_vxglm")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
@@ -4911,7 +4977,6 @@ shape = SubResource("RectangleShape2D_2wyq8")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cutscene_trigger_3"]
 position = Vector2(-797.875, 132.125)
 shape = SubResource("RectangleShape2D_2f3dj")
-disabled = true
 
 [node name="VampireSpawnTest" parent="." instance=ExtResource("13_a8y0u")]
 position = Vector2(1212, 33)
@@ -5093,9 +5158,9 @@ item_quantity = 1
 
 [connection signal="body_entered" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_entered"]
 [connection signal="body_exited" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_exited"]
-[connection signal="body_entered" from="cutscene_trigger_1" to="CharacterBody2D" method="_on_cutscene_trigger_1_body_entered"]
-[connection signal="body_entered" from="cutscene_trigger_2" to="CharacterBody2D" method="_on_cutscene_trigger_2_body_entered"]
-[connection signal="body_entered" from="cutscene_trigger_3" to="CharacterBody2D" method="_on_cutscene_trigger_3_body_entered"]
+[connection signal="body_entered" from="cutscene_trigger_1" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["vamp_cutscene_1", "cutscene_trigger_1", 0]]
+[connection signal="body_entered" from="cutscene_trigger_2" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1", "cutscene_trigger_2", 0]]
+[connection signal="body_entered" from="cutscene_trigger_3" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1_2", "cutscene_trigger_3", 1]]
 
 [editable path="PlayerHUD/EquipSlot"]
 [editable path="DialogAreaInit"]

@@ -46,5 +46,26 @@
 		"??? : I guess I'll have no firewood for tonight",
 		"??? : I hope my father comes back soon...",
 	],
+	"village_meeting_1_3": [
+	"You: Hey... I brought you some firewood. It was lying outside near your house.",
+	"??? : You... you did? Wait—did you use my axe?",
+	"You: Yeah, I found it just outside. I thought you might need the wood.",
+	"??? : Hmph... I suppose that was... kind of you.",
+	"You: You mentioned you had none for tonight, so... yeah.",
+	"??? : ...Alright. Maybe I misjudged you a little.",
+	"??? : I’m Elara, by the way.",
+	"You: Nice to meet you, Elara. I’m... well, I don’t remember my name.",
+	"Elara: That’s... strange. People don’t just forget who they are.",
+	"You: I wish I could explain. I just woke up in the woods, nothing else.",
+	"Elara: Hm. Maybe you really aren’t one of them.",
+	"Elara: Still... if you’re looking for a place to stay, you should talk to the elder.",
+	"You: The village elder?",
+	"Elara: Yes. He lives near the square. Tell him Elara sent you — maybe he’ll listen.",
+	"You: Thanks. I appreciate it.",
+	"Elara: Don’t thank me yet. If you really are who you say you are... then prove it.",
+	"You: Fair enough.",
+	"Elara: And... be careful out there. The woods aren’t safe after sundown."
+]
+
 
 }
