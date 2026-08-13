@@ -1,4 +1,4 @@
-[gd_scene load_steps=168 format=3 uid="uid://b8wgma2x8rok1"]
+[gd_scene format=3 uid="uid://b8wgma2x8rok1"]
 
 [ext_resource type="Script" uid="uid://bwi1g2h87ylye" path="res://scripts/character_body_2d.gd" id="1_t53lx"]
 [ext_resource type="Texture2D" uid="uid://bnh2uc2ctb71y" path="res://assets/FREE_Adventurer 2D Pixel Art/Sprites/IDLE/idle_down.png" id="2_8nwgm"]
@@ -621,7 +621,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a4i31")
 }],
-"loop": false,
+"loop": 0,
 "name": &"chop_down",
 "speed": 32.0
 }, {
@@ -650,7 +650,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x0ugl")
 }],
-"loop": false,
+"loop": 0,
 "name": &"chop_side",
 "speed": 32.0
 }, {
@@ -679,7 +679,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vx17y")
 }],
-"loop": false,
+"loop": 0,
 "name": &"chop_up",
 "speed": 32.0
 }, {
@@ -708,7 +708,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_33wo8")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_down_1",
 "speed": 32.0
 }, {
@@ -737,7 +737,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ufs60")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_down_2",
 "speed": 32.0
 }, {
@@ -766,7 +766,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xq601")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_side_1",
 "speed": 32.0
 }, {
@@ -795,7 +795,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qn2ue")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_side_2",
 "speed": 32.0
 }, {
@@ -824,7 +824,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yxkm3")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_up_1",
 "speed": 32.0
 }, {
@@ -853,7 +853,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oskjr")
 }],
-"loop": false,
+"loop": 0,
 "name": &"hit_up_2",
 "speed": 32.0
 }, {
@@ -882,7 +882,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bae6d")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_down",
 "speed": 8.0
 }, {
@@ -911,7 +911,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u7bf1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_side",
 "speed": 8.0
 }, {
@@ -940,7 +940,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0ehsx")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_up",
 "speed": 8.0
 }, {
@@ -969,7 +969,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y2o23")
 }],
-"loop": false,
+"loop": 0,
 "name": &"mine_down",
 "speed": 32.0
 }, {
@@ -998,7 +998,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4e5ke")
 }],
-"loop": false,
+"loop": 0,
 "name": &"mine_side",
 "speed": 32.0
 }, {
@@ -1027,7 +1027,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3ho02")
 }],
-"loop": false,
+"loop": 0,
 "name": &"mine_up",
 "speed": 32.0
 }, {
@@ -1056,7 +1056,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hqqhk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk_down",
 "speed": 8.0
 }, {
@@ -1085,7 +1085,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_l1neb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk_side",
 "speed": 8.0
 }, {
@@ -1114,7 +1114,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ed0e4")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk_up",
 "speed": 8.0
 }]
@@ -1134,23 +1134,23 @@ size = Vector2(34, 46)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wqsd8"]
 size = Vector2(46, 20)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1954663530]
 texture_filter = 1
 collision_mask = 3
 script = ExtResource("1_t53lx")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1803728154]
 sprite_frames = SubResource("SpriteFrames_35mu4")
-animation = &"mine_up"
+animation = &"hit_side_2"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1638551899]
 position = Vector2(-0.5, 8.5)
 shape = SubResource("RectangleShape2D_ri7g2")
 
-[node name="PickUpCanvas" type="CanvasLayer" parent="."]
+[node name="PickUpCanvas" type="CanvasLayer" parent="." unique_id=1868953066]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="PickUpCanvas"]
+[node name="ColorRect" type="ColorRect" parent="PickUpCanvas" unique_id=1786712261]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1164,7 +1164,7 @@ grow_horizontal = 0
 grow_vertical = 0
 color = Color(0, 0, 0, 0.7058824)
 
-[node name="Label" type="Label" parent="PickUpCanvas/ColorRect"]
+[node name="Label" type="Label" parent="PickUpCanvas/ColorRect" unique_id=825772183]
 layout_mode = 0
 offset_right = 81.0
 offset_bottom = 39.0
@@ -1174,30 +1174,30 @@ text = "Pick up"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AreaUp" type="Area2D" parent="."]
+[node name="AreaUp" type="Area2D" parent="." unique_id=828414717]
 
-[node name="HitboxUp" type="CollisionShape2D" parent="AreaUp"]
+[node name="HitboxUp" type="CollisionShape2D" parent="AreaUp" unique_id=490154706]
 position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_42hdn")
 disabled = true
 
-[node name="AreaRight" type="Area2D" parent="."]
+[node name="AreaRight" type="Area2D" parent="." unique_id=520335713]
 
-[node name="HitboxRight" type="CollisionShape2D" parent="AreaRight"]
+[node name="HitboxRight" type="CollisionShape2D" parent="AreaRight" unique_id=1650639637]
 position = Vector2(27, 0)
 shape = SubResource("RectangleShape2D_el37e")
 disabled = true
 
-[node name="AreaLeft" type="Area2D" parent="."]
+[node name="AreaLeft" type="Area2D" parent="." unique_id=2107250250]
 
-[node name="HitboxLeft" type="CollisionShape2D" parent="AreaLeft"]
+[node name="HitboxLeft" type="CollisionShape2D" parent="AreaLeft" unique_id=1694978687]
 position = Vector2(-28, 0)
 shape = SubResource("RectangleShape2D_inrnk")
 disabled = true
 
-[node name="AreaDown" type="Area2D" parent="."]
+[node name="AreaDown" type="Area2D" parent="." unique_id=1176198115]
 
-[node name="HitboxDown" type="CollisionShape2D" parent="AreaDown"]
+[node name="HitboxDown" type="CollisionShape2D" parent="AreaDown" unique_id=141304875]
 position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_wqsd8")
 disabled = true

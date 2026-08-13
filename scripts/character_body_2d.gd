@@ -142,7 +142,7 @@ func perform_action(base_name: String, use_combo: bool) -> void:
 	if use_combo:
 		var index = last_attack_index[direction]
 		last_attack_index[direction] = (index % 2) + 1
-		anim_name = "hit_%s_%d" % [direction, last_attack_index[direction]]
+		anim_name = "hit_%s_%d" % ["side" if direction in ["left", "right"] else direction, last_attack_index[direction]]
 	else:
 		anim_name = "%s_%s" % [base_name, "side" if direction in ["left", "right"] else direction]
 
