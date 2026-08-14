@@ -33,6 +33,8 @@ func set_equipped(slot_index):
 		
 
 func _input(event: InputEvent) -> void:
+	if SignalBus.is_player_locked():
+		return
 	if event.is_action_pressed("hotbar_1") and Inventory.hotbar_inventory[0] != null and Inventory.hotbar_inventory[0]["item_type"] == "equippable":
 		Inventory.player_node.equipped_item = Inventory.hotbar_inventory[0]
 		set_equipped(0)

@@ -27,6 +27,300 @@
 [ext_resource type="PackedScene" uid="uid://c1g1pif60tfng" path="res://scenes/npc_woman.tscn" id="22_jscy8"]
 [ext_resource type="PackedScene" uid="uid://w5lpyd1yd8se" path="res://scenes/tree_node.tscn" id="23_pm3ni"]
 [ext_resource type="PackedScene" uid="uid://defiwpjxdiq12" path="res://scenes/ore_node.tscn" id="24_y6deb"]
+[ext_resource type="Script" uid="uid://be75e8h7vkapu" path="res://scripts/day_night_cycle.gd" id="28_yq6so"]
+[ext_resource type="Texture2D" uid="uid://bkpc1kjm4t2xn" path="res://ressources/daynightcycle-gradient-texture.tres" id="29_fv21b"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_trceg"]
+vertices = PackedVector2Array(-863.21875, 601.9531, -886.7578, -404.0078, 352, -405.97656, 352, -340.1172, 1475.1484, -64.42969, 1488.7813, 592.03906, 1377.5313, -92.609375, 1350.7266, -342.07813, 1355.7188, -523.59375, 1507.4609, -517.4219, 1498.4688, -353.8203, 1392.5234, -339.82813, 850.7422, -304.4922, 858.8828, -338.0625, 770, -335.10938, 770, -309.60938)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 0, 3, 6), PackedInt32Array(7, 8, 9, 10, 11), PackedInt32Array(7, 11, 6, 12, 13), PackedInt32Array(3, 14, 15), PackedInt32Array(6, 3, 15), PackedInt32Array(6, 15, 12)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-897, -414, 362, -416, 362, -350, 780, -345, 780, -319, 843, -315, 851, -348, 1341, -352, 1346, -534, 1518, -527, 1508, -345, 1402, -331, 1388, -100, 1485, -72, 1499, 602, -873, 612)])
+
+[sub_resource type="Animation" id="Animation_eb6dy"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D:process_mode")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NPC/NPCWoman:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-683, 99)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NPC/NPCWoman:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterBody2D/Camera2D:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ya4ey"]
+resource_name = "vamp_cutscene_1"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D/Camera2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -300), Vector2(0, -300), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DialogPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.96666664, 5.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["vampire_cutscene_1_1"],
+"method": &"on_cutscene_dialog"
+}, {
+"args": ["vampire_cutscene_1_2"],
+"method": &"on_cutscene_dialog"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NPC/VampireBoss/AnimatedSprite2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.1, 2, 4, 5.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [&"idle_side", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"attack_side", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"idle_side", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"flight_front", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"flight_back", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("NPC/VampireSpawn/AnimatedSprite2D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.9, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [&"idle_side", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"death_side", 1.0, false],
+"method": &"play"
+}, {
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("NPC/VampireBoss:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4, 5, 5.4333334, 6.766667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(810, -600), Vector2(810, -420), Vector2(810, -420), Vector2(810, -1000)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CharacterBody2D:process_mode")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 3]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("NPC/VampireBoss")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(7.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_2wyq8"]
+resource_name = "village_cutscene_1"
+length = 3.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DialogPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.0666666),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["village_meeting_1"],
+"method": &"on_cutscene_dialog"
+}, {
+"args": ["village_meeting_1_2"],
+"method": &"on_cutscene_dialog"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NPC/NPCWoman:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.03333336, 1.9666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-683, 99), Vector2(-800, 85)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NPC/NPCWoman:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.9666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterBody2D:process_mode")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2.8666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 3]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("QuestManager")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.8333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["quest_1"],
+"method": &"set_quest"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_vxglm"]
+resource_name = "village_cutscene_1_2"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NPC/NPCWoman:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-800, 110)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NPC/NPCWoman:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DialogPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["village_meeting_1_3"],
+"method": &"on_cutscene_dialog"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_trceg"]
+_data = {
+&"RESET": SubResource("Animation_eb6dy"),
+&"vamp_cutscene_1": SubResource("Animation_ya4ey"),
+&"village_cutscene_1": SubResource("Animation_2wyq8"),
+&"village_cutscene_1_2": SubResource("Animation_vxglm")
+}
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ld40"]
 texture = ExtResource("10_a8y0u")
@@ -4552,310 +4846,6 @@ border_width_bottom = 4
 border_color = Color(0.50980395, 0, 0, 1)
 border_blend = true
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_85g3d"]
-size = Vector2(54, 65)
-
-[sub_resource type="Animation" id="Animation_eb6dy"]
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D:process_mode")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("NPCWoman:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-683, 99)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("NPCWoman:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CharacterBody2D/Camera2D:offset")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -300)]
-}
-
-[sub_resource type="Animation" id="Animation_ya4ey"]
-resource_name = "vamp_cutscene_1"
-length = 8.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterBody2D/Camera2D:offset")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 4, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -300), Vector2(0, -300), Vector2(0, 0)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("DialogPlayer")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.96666664, 5.1),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": ["vampire_cutscene_1_1"],
-"method": &"on_cutscene_dialog"
-}, {
-"args": ["vampire_cutscene_1_2"],
-"method": &"on_cutscene_dialog"
-}]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("VampireBoss/AnimatedSprite2D")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.1, 2, 4, 5.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"values": [{
-"args": [&"idle_side", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"attack_side", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"idle_side", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"flight_front", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"flight_back", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("VampireSpawn/AnimatedSprite2D")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 1.9, 2.9),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [&"idle_side", 1.0, false],
-"method": &"play"
-}, {
-"args": [&"death_side", 1.0, false],
-"method": &"play"
-}, {
-"args": [],
-"method": &"queue_free"
-}]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("VampireBoss:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(4, 5, 5.4333334, 6.766667),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(810, -600), Vector2(810, -420), Vector2(810, -420), Vector2(810, -1000)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("CharacterBody2D:process_mode")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 3]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("VampireBoss")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(7.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"queue_free"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_2wyq8"]
-resource_name = "village_cutscene_1"
-length = 3.0
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("DialogPlayer")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.0666666),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": ["village_meeting_1"],
-"method": &"on_cutscene_dialog"
-}, {
-"args": ["village_meeting_1_2"],
-"method": &"on_cutscene_dialog"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("NPCWoman:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.03333336, 1.9666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-683, 99), Vector2(-800, 85)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("NPCWoman:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(1.9666667),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CharacterBody2D:process_mode")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 2.8666666),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 3]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("QuestManager")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(2.8333333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["quest_1"],
-"method": &"set_quest"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_vxglm"]
-resource_name = "village_cutscene_1_2"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("NPCWoman:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-800, 110)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("NPCWoman:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("DialogPlayer")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.033333335),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["village_meeting_1_3"],
-"method": &"on_cutscene_dialog"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_trceg"]
-_data = {
-&"RESET": SubResource("Animation_eb6dy"),
-&"vamp_cutscene_1": SubResource("Animation_ya4ey"),
-&"village_cutscene_1": SubResource("Animation_2wyq8"),
-&"village_cutscene_1_2": SubResource("Animation_vxglm")
-}
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
-size = Vector2(55, 31)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wyq8"]
-size = Vector2(587, 567)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2f3dj"]
-size = Vector2(129.75, 71.75)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_trceg"]
-vertices = PackedVector2Array(-863.21875, 601.9531, -886.7578, -404.0078, 352, -405.97656, 352, -340.1172, 1475.1484, -64.42969, 1488.7813, 592.03906, 1377.5313, -92.609375, 1350.7266, -342.07813, 1355.7188, -523.59375, 1507.4609, -517.4219, 1498.4688, -353.8203, 1392.5234, -339.82813, 850.7422, -304.4922, 858.8828, -338.0625, 770, -335.10938, 770, -309.60938)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 0, 3, 6), PackedInt32Array(7, 8, 9, 10, 11), PackedInt32Array(7, 11, 6, 12, 13), PackedInt32Array(3, 14, 15), PackedInt32Array(6, 3, 15), PackedInt32Array(6, 15, 12)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-897, -414, 362, -416, 362, -350, 780, -345, 780, -319, 843, -315, 851, -348, 1341, -352, 1346, -534, 1518, -527, 1508, -345, 1402, -331, 1388, -100, 1485, -72, 1499, 602, -873, 612)])
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_muem4"]
 atlas = ExtResource("17_muem4")
 region = Rect2(0, 48, 16, 32)
@@ -4871,8 +4861,55 @@ region = Rect2(0, 0, 16, 48)
 atlas = ExtResource("17_muem4")
 region = Rect2(48, 16, 16, 28)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85g3d"]
+size = Vector2(54, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trceg"]
+size = Vector2(55, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wyq8"]
+size = Vector2(587, 567)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2f3dj"]
+size = Vector2(83.75, 39.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ogq8d"]
+size = Vector2(51, 47.5)
+
 [node name="Main" type="Node2D" unique_id=1391734991]
 metadata/_edit_horizontal_guides_ = [64.0]
+
+[node name="DayNightCycle" type="CanvasModulate" parent="." unique_id=1103797721]
+color = Color(0.2547191, 0.47167206, 0.98708373, 1)
+script = ExtResource("28_yq6so")
+gradient = ExtResource("29_fv21b")
+initial_hour = 20
+
+[node name="CharacterBody2D" parent="." unique_id=1412442651 groups=["Player"] instance=ExtResource("6_ya4ey")]
+z_index = 1
+position = Vector2(820, 127)
+collision_layer = 3
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=493431479]
+process_mode = 3
+zoom = Vector2(1.8, 1.8)
+limit_left = -1500
+limit_top = -900
+limit_right = 1525
+limit_bottom = 622
+limit_smoothed = true
+position_smoothing_enabled = true
+script = ExtResource("7_o6xl0")
+
+[node name="QuestManager" parent="." unique_id=169915827 instance=ExtResource("1_2f3dj")]
+quest_text_file = "res://misc/quest_text.json"
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1511112881]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_trceg")
+
+[node name="CutscenePlayer" type="AnimationPlayer" parent="." unique_id=1732565933]
+libraries/ = SubResource("AnimationLibrary_trceg")
 
 [node name="Tilemaps" type="Node" parent="." unique_id=472051500]
 
@@ -4903,10 +4940,8 @@ tile_map_data = PackedByteArray("AADT/wAAAAAHAAMAAADT/wEAAAAHAAQAAADT/wIAAAAHAAU
 tile_set = SubResource("TileSet_5q0nq")
 
 [node name="Shadows" type="TileMapLayer" parent="Tilemaps" unique_id=1325327769]
-tile_map_data = PackedByteArray("AACp/9P/AAAAAAAAAACp/9T/AAAAAAEAAACq/9P/AAABAAAAAACq/9T/AAABAAEAAACq/9X/AAAAAAEAAACr/9T/AAABAAAAAACr/9X/AAABAAEAAACs/9X/AAABAAAAAACs/9b/AAACAAAAAACs/9f/AAACAAAAAACs/9j/AAACAAAAAACs/9n/AAACAAAAAACs/9r/AAACAAAAAACs/9v/AAACAAAAAACs/9z/AAACAAAAAACs/93/AAACAAAAAACs/97/AAACAAAAAACs/9//AAACAAAAAACs/+D/AAACAAAAAACs/+H/AAACAAAAAACs/+L/AAACAAAAAACs/+P/AAACAAAAAACs/+T/AAACAAAAAADH/9T/AAAAAAAAAADH/9X/AAAAAAEAAADI/9T/AAABAAAAAADI/9X/AAABAAEAAADI/9b/AAAAAAEAAADJ/9X/AAABAAAAAADJ/9b/AAABAAEAAADK/9b/AAABAAAAAADK/9f/AAACAAAAAADK/9j/AAACAAAAAADK/9n/AAACAAAAAADK/9r/AAACAAAAAADK/9v/AAACAAAAAADK/9z/AAACAAAAAADK/93/AAACAAAAAADK/97/AAACAAAAAADK/9//AAACAAAAAADK/+D/AAACAAAAAADK/+H/AAACAAAAAADK/+L/AAACAAAAAADK/+P/AAACAAAAAADK/+T/AAACAAAAAADK/+X/AAACAAAAAACp/+f/AAAAAAAAAACp/+j/AAAAAAEAAACq/+f/AAABAAAAAACq/+j/AAABAAEAAACq/+n/AAAAAAEAAACr/+j/AAABAAAAAACr/+n/AAABAAEAAACs/+n/AAABAAAAAACs/+r/AAACAAAAAACs/+v/AAACAAAAAACs/+z/AAACAAAAAACs/+3/AAACAAAAAACs/+7/AAACAAAAAACs/+//AAACAAAAAACs//D/AAACAAAAAACs//H/AAACAAAAAACs//L/AAACAAAAAACs//P/AAACAAAAAACs//T/AAACAAAAAACs//X/AAACAAAAAACs//b/AAACAAAAAACs//f/AAACAAAAAACs//j/AAACAAAAAAC7/+f/AAAAAAAAAAC7/+j/AAAAAAEAAAC8/+f/AAABAAAAAAC8/+j/AAABAAEAAAC8/+n/AAAAAAEAAAC9/+j/AAABAAAAAAC9/+n/AAABAAEAAAC+/+n/AAABAAAAAAC+/+r/AAACAAAAAAC+/+v/AAACAAAAAAC+/+z/AAACAAAAAAC+/+3/AAACAAAAAAC+/+7/AAACAAAAAAC+/+//AAACAAAAAAC+//D/AAACAAAAAAC+//H/AAACAAAAAAC+//L/AAACAAAAAAC+//P/AAACAAAAAAC+//T/AAACAAAAAAC+//X/AAACAAAAAAC+//b/AAACAAAAAAC+//f/AAACAAAAAAC+//j/AAACAAAAAADM/+f/AAAAAAAAAADM/+j/AAAAAAEAAADN/+f/AAABAAAAAADN/+j/AAABAAEAAADN/+n/AAAAAAEAAADO/+j/AAABAAAAAADO/+n/AAABAAEAAADP/+n/AAABAAAAAADP/+r/AAACAAAAAADP/+v/AAACAAAAAADP/+z/AAACAAAAAADP/+3/AAACAAAAAADP/+7/AAACAAAAAADP/+//AAACAAAAAADP//D/AAACAAAAAADP//H/AAACAAAAAADP//L/AAACAAAAAADP//P/AAACAAAAAADP//T/AAACAAAAAADP//X/AAACAAAAAADP//b/AAACAAAAAADP//f/AAACAAAAAADP//j/AAACAAAAAACr//r/AAAEAAIAAACr//v/AAAEAAMAAACs//v/AAADAAIAAACs//z/AAADAAMAAACt//v/AAAEAAIAAACt//z/AAAEAAMAAACu//z/AAADAAIAAACu//3/AAADAAMAAACv//z/AAAEAAIAAACv//3/AAAEAAMAAACw//3/AAADAAIAAACw//7/AAACAAAAAACq//r/AAABAAIAAACw////AAACAAAAAACw/wAAAAACAAAAAACw/wEAAAACAAAAAACw/wIAAAACAAAAAACw/wMAAAACAAAAAACw/wQAAAACAAAAAACw/wUAAAACAAAAAACw/wYAAAACAAAAAADO//n/AAABAAIAAADP//n/AAAEAAIAAADP//r/AAAEAAMAAADQ//r/AAADAAIAAADQ//v/AAADAAMAAADR//r/AAAEAAIAAADR//v/AAAEAAMAAADS//v/AAADAAIAAADS//z/AAADAAMAAADT//v/AAAEAAIAAADT//z/AAAEAAMAAADU//z/AAADAAIAAADU//3/AAACAAAAAADU//7/AAACAAAAAADU////AAACAAAAAADU/wAAAAACAAAAAADU/wEAAAACAAAAAADU/wIAAAACAAAAAADU/wMAAAACAAAAAADU/wQAAAACAAAAAADU/wUAAAACAAAAAACq/wwAAAABAAIAAACr/wwAAAAEAAIAAACr/w0AAAAEAAMAAACs/w0AAAADAAIAAACs/w4AAAADAAMAAACt/w0AAAAEAAIAAACt/w4AAAAEAAMAAACu/w4AAAADAAIAAACu/w8AAAADAAMAAACv/w4AAAAEAAIAAACv/w8AAAAEAAMAAACw/w8AAAADAAIAAACw/xAAAAACAAAAAACw/xEAAAACAAAAAACw/xIAAAACAAAAAACw/xMAAAACAAAAAACw/xQAAAACAAAAAACw/xUAAAACAAAAAACw/xYAAAACAAAAAACw/xcAAAACAAAAAACw/xgAAAACAAAAAADO/w4AAAABAAIAAADP/w4AAAAEAAIAAADP/w8AAAAEAAMAAADQ/w8AAAADAAIAAADQ/xAAAAADAAMAAADR/w8AAAAEAAIAAADR/xAAAAAEAAMAAADS/xAAAAADAAIAAADS/xEAAAADAAMAAADT/xAAAAAEAAIAAADT/xEAAAAEAAMAAADU/xEAAAADAAIAAADU/xIAAAACAAAAAADU/xMAAAACAAAAAADU/xQAAAACAAAAAADU/xUAAAACAAAAAADU/xYAAAACAAAAAADU/xcAAAACAAAAAADU/xgAAAACAAAAAADU/xkAAAACAAAAAADU/xoAAAACAAAAAAA=")
+tile_map_data = PackedByteArray("AACp/9P/AAAAAAAAAACp/9T/AAAAAAEAAACq/9P/AAABAAAAAACq/9T/AAABAAEAAACq/9X/AAAAAAEAAACr/9T/AAABAAAAAACr/9X/AAABAAEAAACs/9X/AAABAAAAAACs/9b/AAACAAAAAACs/9f/AAACAAAAAACs/9j/AAACAAAAAACs/9n/AAACAAAAAACs/9r/AAACAAAAAACs/9v/AAACAAAAAACs/9z/AAACAAAAAACs/93/AAACAAAAAACs/97/AAACAAAAAACs/9//AAACAAAAAACs/+D/AAACAAAAAACs/+H/AAACAAAAAACs/+L/AAACAAAAAACs/+P/AAACAAAAAACs/+T/AAACAAAAAADH/9T/AAAAAAAAAADH/9X/AAAAAAEAAADI/9T/AAABAAAAAADI/9X/AAABAAEAAADI/9b/AAAAAAEAAADJ/9X/AAABAAAAAADJ/9b/AAABAAEAAADK/9b/AAABAAAAAADK/9f/AAACAAAAAADK/9j/AAACAAAAAADK/9n/AAACAAAAAADK/9r/AAACAAAAAADK/9v/AAACAAAAAADK/9z/AAACAAAAAADK/93/AAACAAAAAADK/97/AAACAAAAAADK/9//AAACAAAAAADK/+D/AAACAAAAAADK/+H/AAACAAAAAADK/+L/AAACAAAAAADK/+P/AAACAAAAAADK/+T/AAACAAAAAADK/+X/AAACAAAAAACp/+f/AAAAAAAAAACp/+j/AAAAAAEAAACq/+f/AAABAAAAAACq/+j/AAABAAEAAACq/+n/AAAAAAEAAACr/+j/AAABAAAAAACr/+n/AAABAAEAAACs/+n/AAABAAAAAACs/+r/AAACAAAAAACs/+v/AAACAAAAAACs/+z/AAACAAAAAACs/+3/AAACAAAAAACs/+7/AAACAAAAAACs/+//AAACAAAAAACs//D/AAACAAAAAACs//H/AAACAAAAAACs//L/AAACAAAAAACs//P/AAACAAAAAACs//T/AAACAAAAAACs//X/AAACAAAAAACs//b/AAACAAAAAACs//f/AAACAAAAAACs//j/AAACAAAAAAC7/+f/AAAAAAAAAAC7/+j/AAAAAAEAAAC8/+f/AAABAAAAAAC8/+j/AAABAAEAAAC8/+n/AAAAAAEAAAC9/+j/AAABAAAAAAC9/+n/AAABAAEAAAC+/+n/AAABAAAAAAC+/+r/AAACAAAAAAC+/+v/AAACAAAAAAC+/+z/AAACAAAAAAC+/+3/AAACAAAAAAC+/+7/AAACAAAAAAC+/+//AAACAAAAAAC+//D/AAACAAAAAAC+//H/AAACAAAAAAC+//L/AAACAAAAAAC+//P/AAACAAAAAAC+//T/AAACAAAAAAC+//X/AAACAAAAAAC+//b/AAACAAAAAAC+//f/AAACAAAAAAC+//j/AAACAAAAAADM/+f/AAAAAAAAAADM/+j/AAAAAAEAAADN/+f/AAABAAAAAADN/+j/AAABAAEAAADN/+n/AAAAAAEAAADO/+j/AAABAAAAAADO/+n/AAABAAEAAADP/+n/AAABAAAAAADP/+r/AAACAAAAAADP/+v/AAACAAAAAADP/+z/AAACAAAAAADP/+3/AAACAAAAAADP/+7/AAACAAAAAADP/+//AAACAAAAAADP//D/AAACAAAAAADP//H/AAACAAAAAADP//L/AAACAAAAAADP//P/AAACAAAAAADP//T/AAACAAAAAADP//X/AAACAAAAAADP//b/AAACAAAAAADP//f/AAACAAAAAADP//j/AAACAAAAAACr//r/AAAEAAIAAACr//v/AAAEAAMAAACs//v/AAADAAIAAACs//z/AAADAAMAAACt//v/AAAEAAIAAACt//z/AAAEAAMAAACu//z/AAADAAIAAACu//3/AAADAAMAAACv//z/AAAEAAIAAACv//3/AAAEAAMAAACw//3/AAADAAIAAACw//7/AAACAAAAAACq//r/AAABAAIAAACw////AAACAAAAAACw/wAAAAACAAAAAACw/wEAAAACAAAAAACw/wIAAAACAAAAAACw/wMAAAACAAAAAACw/wQAAAACAAAAAACw/wUAAAACAAAAAACw/wYAAAACAAAAAADO//n/AAABAAIAAADP//n/AAAEAAIAAADP//r/AAAEAAMAAADQ//r/AAADAAIAAADQ//v/AAADAAMAAADR//r/AAAEAAIAAADR//v/AAAEAAMAAADS//v/AAADAAIAAADS//z/AAADAAMAAADT//v/AAAEAAIAAADT//z/AAAEAAMAAADU//z/AAADAAIAAADU//3/AAACAAAAAADU//7/AAACAAAAAADU////AAACAAAAAADU/wAAAAACAAAAAADU/wEAAAACAAAAAADU/wIAAAACAAAAAADU/wMAAAACAAAAAADU/wQAAAACAAAAAADU/wUAAAACAAAAAACq/wwAAAABAAIAAACr/wwAAAAEAAIAAACr/w0AAAAEAAMAAACs/w0AAAADAAIAAACs/w4AAAADAAMAAACt/w0AAAAEAAIAAACt/w4AAAAEAAMAAACu/w4AAAADAAIAAACu/w8AAAADAAMAAACv/w4AAAAEAAIAAACv/w8AAAAEAAMAAACw/w8AAAADAAIAAACw/xAAAAACAAAAAACw/xEAAAACAAAAAACw/xIAAAACAAAAAACw/xMAAAACAAAAAACw/xQAAAACAAAAAACw/xUAAAACAAAAAACw/xYAAAACAAAAAACw/xcAAAACAAAAAACw/xgAAAACAAAAAADO/w4AAAABAAIAAADP/w4AAAAEAAIAAADP/w8AAAAEAAMAAADQ/w8AAAADAAIAAADQ/xAAAAADAAMAAADR/w8AAAAEAAIAAADR/xAAAAAEAAMAAADS/xAAAAADAAIAAADS/xEAAAADAAMAAADT/xAAAAAEAAIAAADT/xEAAAAEAAMAAADU/xEAAAADAAIAAADU/xIAAAACAAAAAADU/xMAAAACAAAAAADU/xQAAAACAAAAAADU/xUAAAACAAAAAADU/xYAAAACAAAAAADU/xcAAAACAAAAAADU/xgAAAACAAAAAADU/xkAAAACAAAAAADU/xoAAAACAAAAAAC3/8X/AAABAAIAAAC4/8X/AAAEAAIAAAC4/8b/AAAEAAMAAAC5/8b/AAADAAIAAAC5/8f/AAADAAMAAAC6/8b/AAAEAAIAAAC6/8f/AAAEAAMAAAC7/8f/AAADAAIAAAC7/8j/AAADAAMAAAC8/8f/AAAEAAIAAAC8/8j/AAAEAAMAAAC9/8j/AAADAAIAAAC9/8n/AAACAAAAAAC9/8r/AAACAAAAAAC9/8v/AAACAAAAAAC9/8z/AAACAAAAAAC9/83/AAACAAAAAAC9/87/AAACAAAAAAC9/8//AAACAAAAAAC9/9D/AAACAAAAAAC9/9H/AAACAAAAAAA=")
 tile_set = SubResource("TileSet_ogq8d")
-
-[node name="vampire_spawn" parent="." unique_id=1190550551 instance=ExtResource("13_a8y0u")]
 
 [node name="PlayerHUD" type="CanvasLayer" parent="." unique_id=502916180]
 
@@ -4972,9 +5007,9 @@ theme_override_fonts/font = ExtResource("3_vxglm")
 text = "QuestText"
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=1345464167]
-visible = false
 
 [node name="Inventory" parent="InventoryUI" unique_id=822584340 instance=ExtResource("2_jkv2x")]
+visible = false
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -4989,91 +5024,6 @@ scene_text_file = "res://misc/world_dialog.json"
 
 [node name="InventoryHotbar" parent="InventoryHotbar" unique_id=871145714 instance=ExtResource("4_dp3eg")]
 metadata/_edit_use_anchors_ = true
-
-[node name="QuestManager" parent="." unique_id=169915827 instance=ExtResource("1_2f3dj")]
-quest_text_file = "res://misc/quest_text.json"
-
-[node name="CharacterBody2D" parent="." unique_id=1412442651 groups=["Player"] instance=ExtResource("6_ya4ey")]
-z_index = 1
-position = Vector2(820, 127)
-collision_layer = 3
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=493431479]
-process_mode = 3
-offset = Vector2(0, -300)
-zoom = Vector2(1.8, 1.8)
-limit_left = -1500
-limit_top = -900
-limit_right = 1525
-limit_bottom = 622
-limit_smoothed = true
-position_smoothing_enabled = true
-script = ExtResource("7_o6xl0")
-
-[node name="DialogAreaInit" parent="." unique_id=1375097238 instance=ExtResource("8_tipki")]
-collision_layer = 3
-collision_mask = 3
-dialog_key = "spawn"
-one_time = true
-on_entered = true
-
-[node name="CollisionShape2D" parent="DialogAreaInit" index="0"]
-position = Vector2(823, 129)
-shape = SubResource("RectangleShape2D_85g3d")
-
-[node name="CutscenePlayer" type="AnimationPlayer" parent="." unique_id=1732565933]
-libraries/ = SubResource("AnimationLibrary_trceg")
-
-[node name="VampireBoss" parent="." unique_id=91190077 instance=ExtResource("12_trceg")]
-process_mode = 3
-position = Vector2(810, -600)
-script = null
-
-[node name="AnimatedSprite2D" parent="VampireBoss" index="0"]
-animation = &"idle_side"
-
-[node name="VampireSpawn" parent="." unique_id=668777810 instance=ExtResource("13_a8y0u")]
-process_mode = 3
-position = Vector2(848, -600)
-script = null
-
-[node name="AnimatedSprite2D" parent="VampireSpawn" index="0"]
-animation = &"idle_side"
-frame = 0
-
-[node name="DetectionZone" parent="VampireSpawn/DetectionArea" index="0"]
-disabled = true
-
-[node name="cutscene_trigger_1" type="Area2D" parent="." unique_id=459702277]
-position = Vector2(820, -331)
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="cutscene_trigger_1" unique_id=295244621]
-position = Vector2(-4.5, -67.5)
-shape = SubResource("RectangleShape2D_trceg")
-
-[node name="cutscene_trigger_2" type="Area2D" parent="." unique_id=312886977]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="cutscene_trigger_2" unique_id=123892768]
-position = Vector2(-755.5, 139.5)
-shape = SubResource("RectangleShape2D_2wyq8")
-
-[node name="cutscene_trigger_3" type="Area2D" parent="." unique_id=1351296926]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="cutscene_trigger_3" unique_id=1557776412]
-position = Vector2(-797.875, 132.125)
-shape = SubResource("RectangleShape2D_2f3dj")
-
-[node name="VampireSpawnTest" parent="." unique_id=1681426509 instance=ExtResource("13_a8y0u")]
-position = Vector2(1212, 33)
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1511112881]
-visible = false
-navigation_polygon = SubResource("NavigationPolygon_trceg")
-
-[node name="NPCWoman" parent="." unique_id=263030117 instance=ExtResource("22_jscy8")]
-position = Vector2(-683, 99)
 
 [node name="Rocks" type="Node" parent="." unique_id=272935320]
 
@@ -5243,13 +5193,87 @@ item_name = "wooden_axe"
 item_texture = SubResource("AtlasTexture_og1vs")
 item_quantity = 1
 
-[connection signal="body_entered" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_entered"]
-[connection signal="body_exited" from="DialogAreaInit" to="DialogAreaInit" method="_on_body_exited"]
-[connection signal="body_entered" from="cutscene_trigger_1" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["vamp_cutscene_1", "cutscene_trigger_1", 0]]
-[connection signal="body_entered" from="cutscene_trigger_2" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1", "cutscene_trigger_2", 0]]
-[connection signal="body_entered" from="cutscene_trigger_3" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1_2", "cutscene_trigger_3", 1]]
+[node name="NPC" type="Node" parent="." unique_id=909376102]
+
+[node name="VampireBoss" parent="NPC" unique_id=91190077 instance=ExtResource("12_trceg")]
+process_mode = 3
+position = Vector2(810, -600)
+script = null
+
+[node name="AnimatedSprite2D" parent="NPC/VampireBoss" index="0"]
+animation = &"idle_side"
+
+[node name="VampireSpawn" parent="NPC" unique_id=668777810 instance=ExtResource("13_a8y0u")]
+process_mode = 3
+position = Vector2(848, -600)
+script = null
+
+[node name="AnimatedSprite2D" parent="NPC/VampireSpawn" index="0"]
+animation = &"idle_side"
+frame = 0
+
+[node name="DetectionZone" parent="NPC/VampireSpawn/DetectionArea" index="0"]
+disabled = true
+
+[node name="VampireSpawnTest" parent="NPC" unique_id=1681426509 instance=ExtResource("13_a8y0u")]
+position = Vector2(1212, 33)
+
+[node name="NPCWoman" parent="NPC" unique_id=263030117 instance=ExtResource("22_jscy8")]
+position = Vector2(-683, 99)
+
+[node name="vampire_spawn" parent="NPC" unique_id=1190550551 instance=ExtResource("13_a8y0u")]
+
+[node name="Dialog_Cutscenes" type="Node" parent="." unique_id=1777055700]
+
+[node name="DialogAreaInit" parent="Dialog_Cutscenes" unique_id=1375097238 instance=ExtResource("8_tipki")]
+collision_layer = 3
+collision_mask = 3
+dialog_key = "spawn"
+one_time = true
+on_entered = true
+
+[node name="CollisionShape2D" parent="Dialog_Cutscenes/DialogAreaInit" index="0" unique_id=1406601200]
+position = Vector2(822, 124)
+shape = SubResource("RectangleShape2D_85g3d")
+
+[node name="cutscene_trigger_1" type="Area2D" parent="Dialog_Cutscenes" unique_id=459702277]
+position = Vector2(820, -331)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dialog_Cutscenes/cutscene_trigger_1" unique_id=295244621]
+position = Vector2(-4.5, -67.5)
+shape = SubResource("RectangleShape2D_trceg")
+
+[node name="cutscene_trigger_2" type="Area2D" parent="Dialog_Cutscenes" unique_id=312886977]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dialog_Cutscenes/cutscene_trigger_2" unique_id=123892768]
+position = Vector2(-755.5, 139.5)
+shape = SubResource("RectangleShape2D_2wyq8")
+
+[node name="cutscene_trigger_3" type="Area2D" parent="Dialog_Cutscenes" unique_id=1351296926]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dialog_Cutscenes/cutscene_trigger_3" unique_id=1557776412]
+position = Vector2(-800, 117)
+shape = SubResource("RectangleShape2D_2f3dj")
+
+[node name="DialogAreaKnock" parent="Dialog_Cutscenes" unique_id=1847293651 instance=ExtResource("8_tipki")]
+collision_layer = 3
+collision_mask = 3
+dialog_key = "village_elder_door"
+one_time = true
+required_dialog = "village_meeting_1_3"
+
+[node name="CollisionShape2D" parent="Dialog_Cutscenes/DialogAreaKnock" index="0" unique_id=1406601200]
+position = Vector2(-1168, -725.75)
+shape = SubResource("RectangleShape2D_ogq8d")
+
+[connection signal="body_entered" from="Dialog_Cutscenes/cutscene_trigger_1" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["vamp_cutscene_1", "cutscene_trigger_1", 0]]
+[connection signal="body_entered" from="Dialog_Cutscenes/cutscene_trigger_2" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1", "cutscene_trigger_2", 0]]
+[connection signal="body_entered" from="Dialog_Cutscenes/cutscene_trigger_3" to="CharacterBody2D" method="_on_cutscene_trigger_body_entered" binds= ["village_cutscene_1_2", "cutscene_trigger_3", 1]]
 
 [editable path="PlayerHUD/EquipSlot"]
-[editable path="DialogAreaInit"]
-[editable path="VampireBoss"]
-[editable path="VampireSpawn"]
+[editable path="NPC/VampireBoss"]
+[editable path="NPC/VampireSpawn"]
+[editable path="Dialog_Cutscenes/DialogAreaInit"]
+[editable path="Dialog_Cutscenes/DialogAreaKnock"]

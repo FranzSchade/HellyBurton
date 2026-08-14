@@ -20,7 +20,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		icon.texture = item_texture
-	if player_in_range and Input.is_action_pressed("pick_up"):
+	if player_in_range and not SignalBus.is_player_locked() and Input.is_action_pressed("pick_up"):
 		pickup_item()
 		
 func pickup_item():
@@ -36,20 +36,25 @@ func pickup_item():
 		
 	}
 	if Inventory.player_node:
+		Inventory.player_node.clear_interact_prompt(_prompt_id())
 		Inventory.add_item(item, false)
 		self.queue_free()
+
+
+func _prompt_id() -> String:
+	return str(get_instance_id())
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		player_in_range = true
-		body.pick_up_canvas.visible = true
+		body.set_interact_prompt(_prompt_id(), "Pick up")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		player_in_range = false
-		body.pick_up_canvas.visible = false
+		body.clear_interact_prompt(_prompt_id())
 		
 func set_item_data(data):
 	item_type = data["item_type"]

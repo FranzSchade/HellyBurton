@@ -13,6 +13,7 @@ var attack_cooldown := false
 var last_direction := "down"
 var last_attack_index := {"up": 1, "down": 1, "left": 1, "right": 1}
 var equipped_item: Dictionary = {}
+var _interact_prompts: Dictionary = {}
 
 # === NODES ===
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -20,7 +21,9 @@ var equipped_item: Dictionary = {}
 @onready var cutscene_player: AnimationPlayer = $"../CutscenePlayer"
 @onready var health_bar: TextureProgressBar = $"../PlayerHUD/HealthBar"
 @onready var inventory_canvas: CanvasLayer = $"../InventoryUI"
-@onready var pick_up_canvas: CanvasLayer = $PickUpCanvas
+@onready var inventory_panel: Control = $"../InventoryUI/Inventory"
+@onready var interact_canvas: CanvasLayer = $InteractCanvas
+@onready var interact_label: Label = $InteractCanvas/ColorRect/Label
 @onready var inventory_hotbar: CanvasLayer = $"../InventoryHotbar"
 @onready var equip_slot: Control = $"../PlayerHUD/EquipSlot"
 @onready var quest_manager: QuestManager = $"../QuestManager"
@@ -38,10 +41,23 @@ func _ready():
 	health_bar.max_value = max_health
 	health_bar.value = health
 	Inventory.set_player(self)
+	SignalBus.dialog_started.connect(_refresh_interact_prompt)
+	SignalBus.dialog_finished.connect(_refresh_interact_prompt)
+	cutscene_player.animation_finished.connect(_on_cutscene_finished)
+
+
+func _is_busy() -> bool:
+	return SignalBus.dialog_active or cutscene_player.is_playing()
 
 
 # === PHYSICS ===
 func _physics_process(_delta: float) -> void:
+	if _is_busy():
+		velocity = Vector2.ZERO
+		move_and_slide()
+		update_animation()
+		return
+
 	if is_attacking or attack_cooldown:
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -100,10 +116,16 @@ func update_animation() -> void:
 # === INPUT ===
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_inventory"):
-		inventory_canvas.visible = not inventory_canvas.visible
+		if SignalBus.dialog_active:
+			return
+		inventory_canvas.visible = true
+		inventory_panel.visible = not inventory_panel.visible
 		return
 
-	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_canvas.visible:
+	if _is_busy():
+		return
+
+	if event.is_action_pressed("hit") and not is_attacking and not attack_cooldown and not inventory_panel.visible:
 		use_equipped_item()
 
 
@@ -223,10 +245,39 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		body.mine()
 
 
+# === INTERACT PROMPT ===
+func set_interact_prompt(source: String, text: String) -> void:
+	_interact_prompts[source] = text
+	_refresh_interact_prompt()
+
+
+func clear_interact_prompt(source: String) -> void:
+	_interact_prompts.erase(source)
+	_refresh_interact_prompt()
+
+
+func _refresh_interact_prompt() -> void:
+	if _interact_prompts.is_empty() or SignalBus.is_player_locked():
+		interact_canvas.visible = false
+		return
+	interact_canvas.visible = true
+	if "Pick up" in _interact_prompts.values():
+		interact_label.text = "Pick up"
+	else:
+		interact_label.text = _interact_prompts.values()[0]
+
+
+func _on_cutscene_finished(_anim_name: StringName) -> void:
+	cutscene_player.speed_scale = 1.0
+	process_mode = Node.PROCESS_MODE_INHERIT
+	SignalBus.cutscene_active = false
+
+
 # === CUTSCENE ===
 func _on_cutscene_trigger_body_entered(body: Node2D, cutscene_name: String, sender_name: String, quest_count: int) -> void:
 	if body.is_in_group("Player") and quest_manager.quest_counter >= quest_count:
 		cutscene_player.play(cutscene_name)
 		await cutscene_player.animation_finished
-		var sender = get_node("../" + sender_name)
-		sender.queue_free()
+		var sender = get_node_or_null("../Dialog_Cutscenes/" + sender_name)
+		if sender:
+			sender.queue_free()

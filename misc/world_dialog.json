@@ -65,7 +65,22 @@
 	"Elara: Don’t thank me yet. If you really are who you say you are... then prove it.",
 	"You: Fair enough.",
 	"Elara: And... be careful out there. The woods aren’t safe after sundown."
-]
-
-
+],
+	"village_elder_door": [
+		"You: *knock knock*",
+		"???: Who's there? State your business.",
+		"You: Please... I need help. I have nowhere else to go.",
+		"???: Then you've come to the wrong door. Hollowbrook doesn't take in strays.",
+		"You: Elara sent me. She said you might listen.",
+		"???: Elara? ...That girl should know better than to send strangers to my house.",
+		"You: I'm not looking for trouble. I woke up in the woods. I don't remember who I am.",
+		"You: I just need shelter. And maybe... answers.",
+		"???: Memory gone, found in the woods, and vampires circling the village. You understand how that sounds.",
+		"You: I do. That's why I came here instead of hiding. I need someone who knows this place.",
+		"Village Elder: Hmph. At least you've got some sense left.",
+		"Village Elder: Stay where I can see you. If Elara vouches for you, I'll hear you out.",
+		"Village Elder: But if you're lying... the woods will seem kind compared to what follows.",
+		"You: That's all I ask. Thank you.",
+		"Village Elder: Don't thank me yet. Come in — and keep your voice down. This village is already on edge."
+	]
 }

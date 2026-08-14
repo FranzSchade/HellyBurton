@@ -1141,16 +1141,16 @@ script = ExtResource("1_t53lx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1803728154]
 sprite_frames = SubResource("SpriteFrames_35mu4")
-animation = &"hit_side_2"
+animation = &"chop_side"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1638551899]
 position = Vector2(-0.5, 8.5)
 shape = SubResource("RectangleShape2D_ri7g2")
 
-[node name="PickUpCanvas" type="CanvasLayer" parent="." unique_id=1868953066]
+[node name="InteractCanvas" type="CanvasLayer" parent="." unique_id=1868953066]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="PickUpCanvas" unique_id=1786712261]
+[node name="ColorRect" type="ColorRect" parent="InteractCanvas" unique_id=1786712261]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1164,7 +1164,7 @@ grow_horizontal = 0
 grow_vertical = 0
 color = Color(0, 0, 0, 0.7058824)
 
-[node name="Label" type="Label" parent="PickUpCanvas/ColorRect" unique_id=825772183]
+[node name="Label" type="Label" parent="InteractCanvas/ColorRect" unique_id=825772183]
 layout_mode = 0
 offset_right = 81.0
 offset_bottom = 39.0
